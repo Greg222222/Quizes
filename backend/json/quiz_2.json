@@ -1,0 +1,22 @@
+{
+    "quiz_titre": "Mon Nouveau Quiz",
+    "questions": [
+        {
+            "id": 1,
+            "question": "Votre question ici ?",
+            "options": [
+                "Option A",
+                "Option B"
+            ],
+            "reponse_correcte": "Option A",
+            "feedback_succes": "Bravo !",
+            "feedback_erreur": "Dommage !"
+        }
+    ],
+    "message_conclusion": {
+        "titre": "Félicitations !",
+        "description": "Vous avez terminé le quiz.",
+        "appel_a_l_action": "Soutenez-nous",
+        "lien_don": "https://votre-lien-de-don.com"
+    }
+}

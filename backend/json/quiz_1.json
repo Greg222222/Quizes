@@ -1,0 +1,167 @@
+{
+  "quiz_titre": "Quiz : L'inclusion numÃ©rique en France (DonnÃ©es Insee 2026)",
+  "questions": [
+    {
+      "id": 1,
+      "question": "En 2025, quelle part de la population franÃ§aise (16-74 ans) manque de compÃ©tences numÃ©riques de base ?",
+      "options": [
+        "7 %",
+        "27 %",
+        "34 %",
+        "38 %"
+      ],
+      "reponse_correcte": "34 %",
+      "feedback_succes": "Bravo ! C'est exactement cela. [cite: 12] Vous avez bien notÃ© qu'une personne sur trois est en difficultÃ© numÃ©rique en France. [cite: 3] Ce chiffre englobe Ã  la fois l'illectronisme et les compÃ©tences jugÃ©es faibles. [cite: 37]",
+      "feedback_erreur": "Ce n'est pas la bonne rÃ©ponse. En 2025, 34 % de la population de 16 Ã  74 ans manque de compÃ©tences numÃ©riques de base. [cite: 12] Ce taux a diminuÃ© de 4 points depuis 2021. [cite: 13, 37]"
+    },
+    {
+      "id": 2,
+      "question": "Quel est le pourcentage de FranÃ§ais en situation d'illectronisme total en 2025 ?",
+      "options": [
+        "2 %",
+        "5 %",
+        "7 %",
+        "10 %"
+      ],
+      "reponse_correcte": "7 %",
+      "feedback_succes": "Excellent ! Vous avez l'Å“il pour les statistiques. [cite: 21] L'illectronisme touche 7 % des FranÃ§ais, regroupant 5 % de non-internautes et 2 % d'internautes n'ayant aucune compÃ©tence. [cite: 21]",
+      "feedback_erreur": "C'est une erreur. Le taux d'illectronisme en France est de 7 %. [cite: 21] Il se dÃ©compose en 5 % de personnes n'utilisant jamais Internet et 2 % d'utilisateurs sans aucune compÃ©tence numÃ©rique. [cite: 21]"
+    },
+    {
+      "id": 3,
+      "question": "Quel domaine numÃ©rique est le mieux maÃ®trisÃ© par la population franÃ§aise ?",
+      "options": [
+        "L'usage de logiciels",
+        "La communication",
+        "La protection de la vie privÃ©e",
+        "La rÃ©solution de problÃ¨mes"
+      ],
+      "reponse_correcte": "La communication",
+      "feedback_succes": "Parfait ! La communication (mails, rÃ©seaux sociaux, appels Internet) est le domaine le mieux maÃ®trisÃ© par l'ensemble des internautes. [cite: 14] 85 % de la population possÃ¨de des notions avancÃ©es dans ce domaine. [cite: 47]",
+      "feedback_erreur": "C'est inexact. Le domaine de la communication est le mieux maÃ®trisÃ© : 85 % des FranÃ§ais y ont des notions avancÃ©es. [cite: 47] Ã€ l'inverse, l'usage de logiciels et la protection de la vie privÃ©e sont les moins maÃ®trisÃ©s. [cite: 76]"
+    },
+    {
+      "id": 4,
+      "question": "Quelle proportion des 16-74 ans a utilisÃ© une IA gÃ©nÃ©rative (IAG) dÃ©but 2025 ?",
+      "options": [
+        "18 %",
+        "37 %",
+        "62 %",
+        "85 %"
+      ],
+      "reponse_correcte": "37 %",
+      "feedback_succes": "C'est juste ! L'usage de l'intelligence artificielle gÃ©nÃ©rative progresse et concerne dÃ©sormais 37 % des personnes de 16 Ã  74 ans. [cite: 97] Une sur deux l'utilise pour un motif professionnel. [cite: 98]",
+      "feedback_erreur": "DÃ©solÃ©, la rÃ©ponse correcte est 37 %. [cite: 97] Ce taux grimpe Ã  85 % chez les Ã©tudiants [cite: 100], mais tombe Ã  18 % pour les personnes ayant dÃ©jÃ  de faibles compÃ©tences numÃ©riques. [cite: 108]"
+    },
+    {
+      "id": 5,
+      "question": "Quelle est la raison principale du non-usage de l'IA gÃ©nÃ©rative ?",
+      "options": [
+        "Le manque de compÃ©tences",
+        "La crainte pour la vie privÃ©e",
+        "L'absence de besoin ressenti",
+        "Le coÃ»t des outils"
+      ],
+      "reponse_correcte": "L'absence de besoin ressenti",
+      "feedback_succes": "TrÃ¨s bien analysÃ© ! PrÃ¨s de 60 % des non-utilisateurs dÃ©clarent ne pas en ressentir le besoin, quel que soit leur Ã¢ge ou leur diplÃ´me. [cite: 109] Cela montre que l'utilitÃ© de l'IA n'est pas encore perÃ§ue par tous.",
+      "feedback_erreur": "Ce n'est pas tout Ã  fait cela. La raison principale citÃ©e par 60 % des non-utilisateurs est qu'ils n'en ressentent pas le besoin. [cite: 109] Le manque de compÃ©tences et la protection de la vie privÃ©e sont moins citÃ©s. [cite: 110]"
+    },
+    {
+      "id": 6,
+      "question": "Chez les 75 ans ou plus, quelle est la part de personnes manquant de compÃ©tences numÃ©riques ?",
+      "options": [
+        "33 %",
+        "54 %",
+        "82 %",
+        "95 %"
+      ],
+      "reponse_correcte": "82 %",
+      "feedback_succes": "C'est exact ! C'est la tranche d'Ã¢ge la plus fragile : 82 % manquent de compÃ©tences, dont 49 % sont totalement non-internautes. [cite: 18, 135] C'est un dÃ©fi majeur pour l'inclusion.",
+      "feedback_erreur": "C'est beaucoup plus ! Chez les 75 ans ou plus, 82 % manquent de compÃ©tences numÃ©riques. [cite: 18] PrÃ¨s de la moitiÃ© (49 %) n'utilisent jamais Internet. [cite: 135]"
+    },
+    {
+      "id": 7,
+      "question": "Comment se situe le taux d'illectronisme en France par rapport Ã  la moyenne de l'Union europÃ©enne ?",
+      "options": [
+        "Au-dessus (France 9 %, UE 7 %)",
+        "En dessous (France 7 %, UE 9 %)",
+        "Ã€ Ã©galitÃ© (9 %)",
+        "La France a le taux le plus Ã©levÃ©"
+      ],
+      "reponse_correcte": "En dessous (France 7 %, UE 9 %)",
+      "feedback_succes": "Bien jouÃ© ! La France se situe lÃ©gÃ¨rement en dessous de la moyenne europÃ©enne avec 7 % d'illectronisme contre 9 % pour l'UE. [cite: 126, 127] Nous restons cependant loin derriÃ¨re les Pays-Bas (moins de 1 %). [cite: 127]",
+      "feedback_erreur": "C'est l'inverse. La France se situe lÃ©gÃ¨rement en dessous de la moyenne de l'UE avec 7 % d'illectronisme, alors que la moyenne europÃ©enne est de 9 %. [cite: 126, 127]"
+    },
+    {
+      "id": 8,
+      "question": "Quel facteur influe fortement sur les compÃ©tences numÃ©riques, quel que soit l'Ã¢ge ?",
+      "options": [
+        "Le genre",
+        "Le niveau de diplÃ´me",
+        "Le lieu d'habitation",
+        "La taille de la famille"
+      ],
+      "reponse_correcte": "Le niveau de diplÃ´me",
+      "feedback_succes": "Exactement ! Le niveau de compÃ©tences dÃ©pend fortement du diplÃ´me. [cite: 41] Par exemple, chez les 60-74 ans, l'illectronisme tombe Ã  2 % pour les titulaires d'un Bac+3 contre 15 % pour les titulaires d'un CAP-BEP. [cite: 42]",
+      "feedback_erreur": "La bonne rÃ©ponse est le niveau de diplÃ´me. [cite: 41] C'est un marqueur social fort : les personnes les moins diplÃ´mÃ©es sont beaucoup plus souvent en situation d'illectronisme, mÃªme chez les plus jeunes. [cite: 43]"
+    },
+    {
+      "id": 9,
+      "question": "Pourquoi les compÃ©tences en logiciels (traitement de texte, tableur) ont-elles baissÃ© depuis 2021 ?",
+      "options": [
+        "Les logiciels sont trop chers",
+        "L'usage accru des smartphones et tablettes",
+        "L'IA remplace ces outils",
+        "Le manque de formation Ã  l'Ã©cole"
+      ],
+      "reponse_correcte": "L'usage accru des smartphones et tablettes",
+      "feedback_succes": "Tout Ã  fait ! L'utilisation moindre des ordinateurs au bÃ©nÃ©fice des tablettes et smartphones rÃ©duit la pratique des logiciels bureautiques. [cite: 81] C'est une tendance mondiale Ã©galement observÃ©e en Espagne et en Italie. [cite: 79]",
+      "feedback_erreur": "La rÃ©ponse est liÃ©e Ã  l'Ã©volution du matÃ©riel. La baisse du niveau en logiciels s'explique par la moindre utilisation des ordinateurs au profit des tablettes et smartphones. [cite: 81]"
+    },
+    {
+      "id": 10,
+      "question": "Quel est l'Ã©cart de compÃ©tences 'avancÃ©es' entre les hommes et les femmes en 2025 ?",
+      "options": [
+        "Il n'y a aucun Ã©cart",
+        "6 points (34 % des hommes contre 28 % des femmes)",
+        "15 points d'Ã©cart",
+        "Les femmes sont plus avancÃ©es"
+      ],
+      "reponse_correcte": "6 points (34 % des hommes contre 28 % des femmes)",
+      "feedback_succes": "C'est exact. Bien que les femmes soient lÃ©gÃ¨rement moins en situation d'illectronisme (6 % contre 7 %), elles ont moins souvent un niveau gÃ©nÃ©ral de compÃ©tences avancÃ©es. [cite: 44, 45]",
+      "feedback_erreur": "L'Ã©cart est de 6 points. Si 34 % des hommes ont des compÃ©tences avancÃ©es, seules 28 % des femmes atteignent ce niveau, malgrÃ© un taux d'illectronisme lÃ©gÃ¨rement plus faible chez ces derniÃ¨res. [cite: 44, 45]"
+    },
+    {
+      "id": 11,
+      "question": "Quelle est la part des personnes qui se sentent 'dÃ©passÃ©es' par les Ã©volutions numÃ©riques ?",
+      "options": [
+        "5 %",
+        "15 %",
+        "25 %",
+        "57 %"
+      ],
+      "reponse_correcte": "15 %",
+      "feedback_succes": "FÃ©licitations ! 15 % des FranÃ§ais se sentent dÃ©passÃ©s ou n'utilisent pas Internet. [cite: 83] Ce sentiment de fragilitÃ© numÃ©rique grimpe Ã  38 % chez les seniors ayant des compÃ©tences faibles. [cite: 93]",
+      "feedback_erreur": "C'est 15 %. [cite: 83] Ã€ l'inverse, 57 % de la population estime que ses compÃ©tences correspondent bien aux tÃ¢ches qu'elle doit ou souhaite accomplir. [cite: 84]"
+    },
+    {
+      "id": 12,
+      "question": "Pourquoi la part d'internautes augmente-t-elle chez les plus de 75 ans ?",
+      "options": [
+        "Ils se forment massivement",
+        "L'IA les aide au quotidien",
+        "Un effet de gÃ©nÃ©ration",
+        "Le prix du matÃ©riel a baissÃ©"
+      ],
+      "reponse_correcte": "Un effet de gÃ©nÃ©ration",
+      "feedback_succes": "Exactement ! L'augmentation est liÃ©e au fait que les nouvelles personnes entrant dans cette tranche d'Ã¢ge utilisaient dÃ©jÃ  Internet auparavant. [cite: 133] Ce n'est pas dÃ» Ã  un changement de pratique des personnes dÃ©jÃ  Ã¢gÃ©es. [cite: 133]",
+      "feedback_erreur": "La rÃ©ponse est l'effet de gÃ©nÃ©ration. [cite: 133] Les nouveaux arrivants dans cette tranche d'Ã¢ge sont dÃ©jÃ  internautes, tandis que les plus anciens, souvent non-internautes, disparaissent. [cite: 133]"
+    }
+  ],
+  "message_conclusion": {
+    "titre": "Agir pour l'inclusion numÃ©rique avec Konexio",
+    "description": "L'illectronisme n'est pas une fatalitÃ©. L'association Konexio (www.konexio.eu) lutte activement contre l'exclusion numÃ©rique en France. Elle accompagne les personnes les plus Ã©loignÃ©es du digital (rÃ©fugiÃ©s, jeunes sans diplÃ´me, seniors) Ã  travers des formations certifiantes. L'objectif : donner Ã  chacun les compÃ©tences nÃ©cessaires pour s'insÃ©rer professionnellement et gagner en autonomie dans une sociÃ©tÃ© tout-numÃ©rique.",
+    "appel_a_l_action": "Vous pouvez soutenir cette mission et aider Ã  rÃ©duire la fracture numÃ©rique en faisant un don.",
+    "lien_don": "https://www.helloasso.com/associations/konexio/formulaires/1"
+  }
+}

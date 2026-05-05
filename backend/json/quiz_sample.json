@@ -1,0 +1,34 @@
+{
+  "title": "Quiz de Découverte",
+  "theme": {
+    "botAvatar": "https://media.giphy.com/media/ASd0Ukj0y3qMM/giphy.gif",
+    "primaryColor": "#6366f1",
+    "backgroundColor": "#f8fafc",
+    "fontFamily": "Inter"
+  },
+  "questions": [
+    {
+      "type": "message",
+      "text": "Bonjour ! Bienvenue sur notre quiz interactif."
+    },
+    {
+      "type": "input",
+      "text": "Comment vous appelez-vous ?",
+      "placeholder": "Votre prénom",
+      "variableName": "first_name"
+    },
+    {
+      "type": "choice",
+      "text": "Quel est votre framework préféré ?",
+      "options": [
+        { "label": "React", "value": "react", "isCorrect": true, "scoreValue": 1 },
+        { "label": "Vue", "value": "vue", "isCorrect": false },
+        { "label": "Svelte", "value": "svelte", "isCorrect": false }
+      ]
+    },
+    {
+      "type": "terminal",
+      "text": "Merci pour vos réponses ! À très bientôt."
+    }
+  ]
+}
