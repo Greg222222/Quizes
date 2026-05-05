@@ -69,8 +69,8 @@ function App() {
   const isStandalonePlayer = !!playFlowId;
 
   const [mode, setMode] = useState<'player' | 'editor'>('player')
-  const [completed, setCompleted] = useState(false)
-  const [results, setResults] = useState<any>(null)
+  const [, setCompleted] = useState(false)
+  const [, setResults] = useState<any>(null)
   const [allFlows, setAllFlows] = useState<QuizFlow[]>([])
   const [showShareModal, setShowShareModal] = useState(false);
 

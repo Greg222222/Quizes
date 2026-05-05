@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './ChatPlayer.css';
-import type { QuizFlow, QuizNode } from '../../shared/types';
+import type { QuizFlow } from '../../shared/types';
 import { Send } from 'lucide-react';
 
 interface ChatPlayerProps {
@@ -112,7 +112,7 @@ export const ChatPlayer: React.FC<ChatPlayerProps> = ({ flow, onComplete }) => {
         }
       }
 
-      const updated = { ...prev, score: newScore };
+      const updated: Record<string, any> = { ...prev, score: newScore };
       if (node?.data?.variableName) {
         updated[node.data.variableName] = value;
       }
@@ -208,7 +208,7 @@ export const ChatPlayer: React.FC<ChatPlayerProps> = ({ flow, onComplete }) => {
               <button 
                 key={opt.id} 
                 className="option-button"
-                onClick={() => handleUserResponse(opt.label, opt.value, opt.nextId)}
+                onClick={() => handleUserResponse(opt.label, opt.value)}
               >
                 {opt.label}
               </button>
