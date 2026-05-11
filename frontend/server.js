@@ -13,7 +13,7 @@ const port = 80;
 app.use(express.static(path.join(__dirname, 'dist')));
 
 // Rediriger toutes les autres requêtes vers index.html (pour le routage SPA React)
-app.get('*', (req, res) => {
+app.use((req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
