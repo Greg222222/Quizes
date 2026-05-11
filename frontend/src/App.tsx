@@ -91,7 +91,8 @@ function App() {
   // Fetch flows from backend
   const fetchFlows = async () => {
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+      const rawApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+      const apiUrl = rawApiUrl.endsWith('/api') ? rawApiUrl.slice(0, -4) : rawApiUrl;
       const response = await fetch(`${apiUrl}/api/flows`);
       if (response.ok) {
         const data = await response.json();
@@ -163,7 +164,8 @@ function App() {
     };
 
     try {
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+      const rawApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+      const apiUrl = rawApiUrl.endsWith('/api') ? rawApiUrl.slice(0, -4) : rawApiUrl;
       const response = await fetch(`${apiUrl}/api/flows`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
