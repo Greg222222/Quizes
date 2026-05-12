@@ -223,11 +223,11 @@ function loadFlowsFromDisk() {
               // Check format
               if (json.nodes && Array.isArray(json.nodes)) {
                 if (!json.id) json.id = `flow_${file.replace(/\.[^/.]+$/, "")}`;
-                flows.push(json);
+                flows.push({ ...json, _fileName: file });
               } else if (json.quiz_titre || (json.questions && Array.isArray(json.questions) && json.questions.some((q: any) => q.question !== undefined))) {
-                flows.push(parseNewFormatToFlow(json, file));
+                flows.push({ ...parseNewFormatToFlow(json, file), _fileName: file });
               } else if (json.questions && Array.isArray(json.questions)) {
-                flows.push(parseSimpleJsonToFlow(json, file));
+                flows.push({ ...parseSimpleJsonToFlow(json, file), _fileName: file });
               }
             }
           }
@@ -259,6 +259,7 @@ app.get('/api/flows/:id', (req, res) => {
 
 app.post('/api/flows', (req, res) => {
   const newFlow = { ...req.body, id: `flow_${Date.now()}` };
+  newFlow._fileName = `${newFlow.id}.json`;
   flows.push(newFlow);
 
   try {
@@ -279,6 +280,39 @@ app.post('/api/responses', (req, res) => {
   const response = { ...req.body, id: Date.now().toString(), startedAt: new Date().toISOString() };
   responses.push(response);
   res.status(201).json(response);
+});
+
+// Admin Authentication Endpoint
+app.post('/api/login', (req, res) => {
+  const { password } = req.body;
+  const adminPassword = process.env.ADMIN_PASSWORD || 'admin';
+  if (password === adminPassword) {
+    res.json({ success: true });
+  } else {
+    res.status(401).json({ success: false, message: 'Mot de passe incorrect' });
+  }
+});
+
+// Delete Flow Endpoint
+app.delete('/api/flows/:id', (req, res) => {
+  const flowIndex = flows.findIndex(f => f.id === req.params.id);
+  if (flowIndex > -1) {
+    const flow = flows[flowIndex];
+    const fileName = flow._fileName || `${flow.id}.json`;
+    const filePath = path.join(__dirname, '../json', fileName);
+    try {
+      if (fs.existsSync(filePath)) {
+        fs.unlinkSync(filePath);
+      }
+      flows.splice(flowIndex, 1);
+      res.status(200).json({ success: true, message: 'Quiz supprimé' });
+    } catch (e) {
+      console.error('Error deleting file:', e);
+      res.status(500).json({ success: false, message: 'Erreur lors de la suppression' });
+    }
+  } else {
+    res.status(404).json({ success: false, message: 'Quiz non trouvé' });
+  }
 });
 
 app.listen(PORT, () => {

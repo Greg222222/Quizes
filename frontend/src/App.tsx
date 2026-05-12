@@ -73,6 +73,9 @@ function App() {
   const [, setResults] = useState<any>(null)
   const [allFlows, setAllFlows] = useState<QuizFlow[]>([])
   const [showShareModal, setShowShareModal] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(() => {
+    return localStorage.getItem('quizz_admin') === 'true';
+  });
 
   const [flow, setFlow] = useState<QuizFlow>(() => {
     if (isStandalonePlayer) return SAMPLE_FLOW; // Temporary until fetched
@@ -183,6 +186,73 @@ function App() {
     }
   };
 
+  const handleLogin = async () => {
+    const password = window.prompt("Mot de passe administrateur :");
+    if (!password) return;
+
+    try {
+      const rawApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+      const apiUrl = rawApiUrl.endsWith('/api') ? rawApiUrl.slice(0, -4) : rawApiUrl;
+      const response = await fetch(`${apiUrl}/api/login`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password })
+      });
+      if (response.ok) {
+        const data = await response.json();
+        if (data.success) {
+          setIsAdmin(true);
+          localStorage.setItem('quizz_admin', 'true');
+          setMode('editor');
+        } else {
+          alert('Mot de passe incorrect');
+        }
+      } else {
+        alert('Mot de passe incorrect');
+      }
+    } catch (e) {
+      console.error('Error during login:', e);
+      alert('Erreur de connexion au serveur');
+    }
+  };
+
+  const handleLogout = () => {
+    setIsAdmin(false);
+    localStorage.removeItem('quizz_admin');
+    setMode('player');
+  };
+
+  const handleDeleteQuiz = async (id: string) => {
+    if (!window.confirm('Êtes-vous sûr de vouloir supprimer ce quiz définitivement ?')) {
+      return;
+    }
+
+    try {
+      const rawApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+      const apiUrl = rawApiUrl.endsWith('/api') ? rawApiUrl.slice(0, -4) : rawApiUrl;
+      const response = await fetch(`${apiUrl}/api/flows/${id}`, {
+        method: 'DELETE'
+      });
+      if (response.ok) {
+        setAllFlows(prev => prev.filter(f => f.id !== id));
+        if (flow.id === id) {
+          const remaining = allFlows.filter(f => f.id !== id);
+          if (remaining.length > 0) {
+            setFlow(remaining[0]);
+          } else {
+            setFlow(SAMPLE_FLOW);
+          }
+          setMode('player');
+        }
+      } else {
+        alert('Erreur lors de la suppression');
+      }
+    } catch (e) {
+      console.error('Error deleting quiz:', e);
+      alert('Erreur de connexion au serveur');
+    }
+  };
+
   if (isStandalonePlayer) {
     return (
       <div style={{ width: '100vw', height: '100vh', margin: 0, padding: 0, overflow: 'hidden' }}>
@@ -200,7 +270,11 @@ function App() {
       <nav className="app-nav" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
           <button onClick={() => { setMode('player'); setCompleted(false); }} style={{ background: mode === 'player' ? '#6366f1' : 'white', color: mode === 'player' ? 'white' : '#1e293b' }}>Player Mode</button>
-          <button onClick={() => setMode('editor')} style={{ background: mode === 'editor' ? '#6366f1' : 'white', color: mode === 'editor' ? 'white' : '#1e293b' }}>Editor Mode (Admin)</button>
+          {isAdmin ? (
+            <button onClick={() => setMode('editor')} style={{ background: mode === 'editor' ? '#6366f1' : 'white', color: mode === 'editor' ? 'white' : '#1e293b' }}>Editor Mode</button>
+          ) : (
+            <button onClick={handleLogin} style={{ background: 'white', color: '#1e293b' }}>Log in as Admin</button>
+          )}
         </div>
 
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
@@ -210,12 +284,14 @@ function App() {
           >
             🔗 Partager
           </button>
-          <button 
-            onClick={handleCreateQuiz}
-            style={{ background: '#10b981', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '20px', fontSize: '0.85rem', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
-          >
-            + Créer un Quiz
-          </button>
+          {isAdmin && (
+            <button 
+              onClick={handleCreateQuiz}
+              style={{ background: '#10b981', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '20px', fontSize: '0.85rem', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
+            >
+              + Créer un Quiz
+            </button>
+          )}
 
           {allFlows.length > 0 && (
             <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
@@ -229,6 +305,15 @@ function App() {
                   <option key={f.id} value={f.id}>{f.name}</option>
                 ))}
               </select>
+              {isAdmin && (
+                <button
+                  onClick={() => handleDeleteQuiz(flow.id)}
+                  style={{ background: '#ef4444', color: 'white', border: 'none', padding: '6px 12px', borderRadius: '20px', fontSize: '0.85rem', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)', marginLeft: '4px' }}
+                  title="Supprimer ce quiz"
+                >
+                  🗑️
+                </button>
+              )}
               <button 
                 onClick={fetchFlows}
                 style={{ background: '#f1f5f9', border: '1px solid #e2e8f0', color: '#475569', borderRadius: '50%', width: '32px', height: '32px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', padding: 0 }}
@@ -236,6 +321,15 @@ function App() {
               >
                 🔄
               </button>
+              {isAdmin && (
+                <button
+                  onClick={handleLogout}
+                  style={{ background: '#f8fafc', color: '#475569', border: '1px solid #cbd5e1', padding: '6px 12px', borderRadius: '20px', fontSize: '0.85rem', cursor: 'pointer', marginLeft: '10px' }}
+                  title="Déconnexion admin"
+                >
+                  Déconnexion
+                </button>
+              )}
             </div>
           )}
         </div>
