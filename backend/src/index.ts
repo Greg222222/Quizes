@@ -10,7 +10,13 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: '10mb' }));
+
+const uploadsDir = path.resolve(__dirname, '../public/uploads');
+if (!fs.existsSync(uploadsDir)) {
+  fs.mkdirSync(uploadsDir, { recursive: true });
+}
+app.use('/uploads', express.static(uploadsDir));
 
 // Fallback for Chrome DevTools extension requests
 app.get('/.well-known/appspecific/com.chrome.devtools.json', (req, res) => {
@@ -281,6 +287,141 @@ app.post('/api/responses', (req, res) => {
   responses.push(response);
   res.status(201).json(response);
 });
+
+// Image Upload Endpoint
+app.post('/api/upload', (req, res) => {
+  const { image, title } = req.body;
+  if (!image) {
+    return res.status(400).json({ success: false, message: 'Aucune image fournie' });
+  }
+
+  try {
+    // Extract base64 data
+    const matches = image.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/);
+    if (!matches || matches.length !== 3) {
+      return res.status(400).json({ success: false, message: 'Format d\'image invalide' });
+    }
+
+    const extension = matches[1].split('/')[1] || 'png';
+    const buffer = Buffer.from(matches[2], 'base64');
+    const fileName = `avatar_${Date.now()}.${extension}`;
+    const filePath = path.join(uploadsDir, fileName);
+
+    fs.writeFileSync(filePath, buffer);
+    
+    // Save metadata
+    const metadataPath = path.join(uploadsDir, 'images.json');
+    let images = [];
+    if (fs.existsSync(metadataPath)) {
+      try {
+        images = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
+      } catch (e) {
+        images = [];
+      }
+    }
+    
+    const newImage = {
+      filename: fileName,
+      url: `/uploads/${fileName}`,
+      title: title || 'Image sans titre',
+      createdAt: new Date().toISOString()
+    };
+    images.unshift(newImage); // Add at the beginning
+    fs.writeFileSync(metadataPath, JSON.stringify(images, null, 2), 'utf8');
+
+    res.status(201).json({ success: true, url: `/uploads/${fileName}` });
+  } catch (error) {
+    console.error('Error uploading image:', error);
+    res.status(500).json({ success: false, message: 'Erreur lors de la sauvegarde de l\'image' });
+  }
+});
+
+// Get Uploaded Images Endpoint
+app.get('/api/uploads', (req, res) => {
+  const metadataPath = path.join(uploadsDir, 'images.json');
+  let images = [];
+  if (fs.existsSync(metadataPath)) {
+    try {
+      images = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
+    } catch (e) {
+      images = [];
+    }
+  } else {
+    // Fallback: list directory if images.json doesn't exist
+    try {
+      const files = fs.readdirSync(uploadsDir);
+      images = files
+        .filter(f => f !== 'images.json')
+        .map(f => ({
+          filename: f,
+          url: `/uploads/${f}`,
+          title: f,
+          createdAt: fs.statSync(path.join(uploadsDir, f)).birthtime.toISOString()
+        }))
+        .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    } catch (e) {
+      console.error('Error reading uploads directory', e);
+    }
+  }
+  res.json({ success: true, images });
+});
+
+// Rename Image Endpoint
+app.put('/api/uploads/:filename', (req, res) => {
+  const { filename } = req.params;
+  const { title } = req.body;
+  if (!title) {
+    return res.status(400).json({ success: false, message: 'Titre manquant' });
+  }
+
+  const metadataPath = path.join(uploadsDir, 'images.json');
+  if (fs.existsSync(metadataPath)) {
+    try {
+      const images = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
+      const imgIndex = images.findIndex((img: any) => img.filename === filename);
+      if (imgIndex > -1) {
+        images[imgIndex].title = title;
+        fs.writeFileSync(metadataPath, JSON.stringify(images, null, 2), 'utf8');
+        return res.json({ success: true, message: 'Image renommée' });
+      }
+    } catch (e) {
+      console.error('Error updating image title', e);
+    }
+  }
+  res.status(404).json({ success: false, message: 'Image non trouvée' });
+});
+
+// Delete Image Endpoint
+app.delete('/api/uploads/:filename', (req, res) => {
+  const { filename } = req.params;
+  const filePath = path.join(uploadsDir, filename);
+
+  // Remove from metadata
+  const metadataPath = path.join(uploadsDir, 'images.json');
+  if (fs.existsSync(metadataPath)) {
+    try {
+      const images = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
+      const filteredImages = images.filter((img: any) => img.filename !== filename);
+      fs.writeFileSync(metadataPath, JSON.stringify(filteredImages, null, 2), 'utf8');
+    } catch (e) {
+      console.error('Error updating images metadata on delete', e);
+    }
+  }
+
+  // Remove physical file
+  if (fs.existsSync(filePath)) {
+    try {
+      fs.unlinkSync(filePath);
+      return res.json({ success: true, message: 'Image supprimée' });
+    } catch (e) {
+      console.error('Error deleting image file', e);
+      return res.status(500).json({ success: false, message: 'Erreur lors de la suppression du fichier' });
+    }
+  }
+
+  res.status(404).json({ success: false, message: 'Fichier non trouvé' });
+});
+
 
 // Admin Authentication Endpoint
 app.post('/api/login', (req, res) => {

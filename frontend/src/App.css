@@ -6,6 +6,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  background-color: #f1f5f9;
 }
 
 .completion-screen {
@@ -28,11 +29,22 @@ pre {
 
 .app-nav {
   display: flex;
-  gap: 10px;
-  padding: 10px;
-  background: white;
-  border-bottom: 1px solid #e2e8f0;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
   z-index: 100;
+}
+
+.nav-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
 }
 
 .app-nav button {
@@ -48,4 +60,50 @@ pre {
 
 .app-nav button:hover {
   background: #f8fafc;
+  transform: translateY(-1px);
+}
+
+.player-wrapper {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 2rem;
+}
+
+.editor-sidebar {
+  width: 350px;
+  flex-shrink: 0;
+  z-index: 10;
+}
+
+@media (max-width: 768px) {
+  .player-wrapper {
+    padding: 0;
+  }
+  
+  .app-nav {
+    flex-direction: column;
+    justify-content: center;
+    padding: 15px;
+    gap: 15px;
+  }
+
+  .nav-group {
+    justify-content: center;
+    width: 100%;
+  }
+  
+  /* Make Flow Editor stack on mobile */
+  .editor-layout {
+    flex-direction: column !important;
+  }
+  
+  .editor-sidebar {
+    width: 100% !important;
+    height: 40% !important;
+    border-right: none !important;
+    border-bottom: 1px solid #e2e8f0;
+  }
 }

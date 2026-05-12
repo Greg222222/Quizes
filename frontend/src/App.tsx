@@ -256,7 +256,7 @@ function App() {
   if (isStandalonePlayer) {
     return (
       <div style={{ width: '100vw', height: '100vh', margin: 0, padding: 0, overflow: 'hidden' }}>
-        <ChatPlayer flow={flow} onComplete={handleComplete} />
+        <ChatPlayer key={flow.id} flow={flow} onComplete={handleComplete} />
       </div>
     );
   }
@@ -267,9 +267,11 @@ function App() {
 
   return (
     <div className="app-root">
-      <nav className="app-nav" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-          <button onClick={() => { setMode('player'); setCompleted(false); }} style={{ background: mode === 'player' ? '#6366f1' : 'white', color: mode === 'player' ? 'white' : '#1e293b' }}>Player Mode</button>
+      <nav className="app-nav">
+        <div className="nav-group">
+          {isAdmin && (
+            <button onClick={() => { setMode('player'); setCompleted(false); }} style={{ background: mode === 'player' ? '#6366f1' : 'white', color: mode === 'player' ? 'white' : '#1e293b' }}>Player Mode</button>
+          )}
           {isAdmin ? (
             <button onClick={() => setMode('editor')} style={{ background: mode === 'editor' ? '#6366f1' : 'white', color: mode === 'editor' ? 'white' : '#1e293b' }}>Editor Mode</button>
           ) : (
@@ -277,7 +279,7 @@ function App() {
           )}
         </div>
 
-        <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+        <div className="nav-group">
           <button 
             onClick={() => setShowShareModal(true)}
             style={{ background: '#3b82f6', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '20px', fontSize: '0.85rem', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
@@ -294,7 +296,7 @@ function App() {
           )}
 
           {allFlows.length > 0 && (
-            <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+            <div className="nav-group" style={{ borderLeft: isAdmin ? '1px solid #e2e8f0' : 'none', paddingLeft: isAdmin ? '10px' : '0' }}>
               <span style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '500' }}>Charger un Quiz :</span>
               <select 
                 value={flow.id} 
@@ -338,7 +340,9 @@ function App() {
       {mode === 'editor' ? (
         <FlowEditor initialFlow={flow} onFlowChange={setFlow} />
       ) : (
-        <ChatPlayer flow={flow} onComplete={handleComplete} />
+        <div className="player-wrapper">
+          <ChatPlayer key={flow.id} flow={flow} onComplete={handleComplete} />
+        </div>
       )}
 
       {showShareModal && (

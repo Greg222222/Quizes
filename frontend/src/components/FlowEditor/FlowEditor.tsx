@@ -23,6 +23,113 @@ const nodeTypes = {
   custom: CustomNode,
 };
 
+const ImageBrowserModal = ({ onClose, onSelect }: { onClose: () => void, onSelect: (url: string) => void }) => {
+  const [images, setImages] = useState<any[]>([]);
+  const [search, setSearch] = useState('');
+
+  const fetchImages = useCallback(async () => {
+    const rawApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+    const apiUrl = rawApiUrl.endsWith('/api') ? rawApiUrl.slice(0, -4) : rawApiUrl;
+    try {
+      const res = await fetch(`${apiUrl}/api/uploads`);
+      if (res.ok) {
+        const data = await res.json();
+        setImages(data.images || []);
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }, []);
+
+  React.useEffect(() => {
+    fetchImages();
+  }, [fetchImages]);
+
+  const handleRename = async (e: React.MouseEvent, img: any) => {
+    e.stopPropagation();
+    const newTitle = window.prompt("Nouveau titre pour l'image :", img.title || img.filename);
+    if (!newTitle) return;
+
+    const rawApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+    const apiUrl = rawApiUrl.endsWith('/api') ? rawApiUrl.slice(0, -4) : rawApiUrl;
+    try {
+      const res = await fetch(`${apiUrl}/api/uploads/${img.filename}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: newTitle })
+      });
+      if (res.ok) fetchImages();
+    } catch (err) {
+      console.error('Error renaming', err);
+    }
+  };
+
+  const handleDelete = async (e: React.MouseEvent, img: any) => {
+    e.stopPropagation();
+    if (!window.confirm(`Voulez-vous vraiment supprimer "${img.title || img.filename}" ? Cette action est irréversible.`)) return;
+
+    const rawApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+    const apiUrl = rawApiUrl.endsWith('/api') ? rawApiUrl.slice(0, -4) : rawApiUrl;
+    try {
+      const res = await fetch(`${apiUrl}/api/uploads/${img.filename}`, {
+        method: 'DELETE'
+      });
+      if (res.ok) fetchImages();
+    } catch (err) {
+      console.error('Error deleting', err);
+    }
+  };
+
+  const filteredImages = images.filter(img => img.title?.toLowerCase().includes(search.toLowerCase()) || img.filename?.toLowerCase().includes(search.toLowerCase()));
+
+  const rawApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+  const apiUrl = rawApiUrl.endsWith('/api') ? rawApiUrl.slice(0, -4) : rawApiUrl;
+
+  return (
+    <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', zIndex: 1000, display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(4px)' }}>
+      <div style={{ background: 'white', padding: '20px', borderRadius: '12px', width: '90%', maxWidth: '800px', maxHeight: '80vh', display: 'flex', flexDirection: 'column' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+          <h2 style={{ margin: 0, color: '#1e293b' }}>Parcourir les images</h2>
+          <button onClick={onClose} style={{ background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer', color: '#64748b' }}>&times;</button>
+        </div>
+        <input 
+          type="text" 
+          placeholder="Rechercher par titre..." 
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          style={{ padding: '10px', marginBottom: '15px', borderRadius: '8px', border: '1px solid #cbd5e1', width: '100%', outline: 'none' }}
+        />
+        <div style={{ flex: 1, overflowY: 'auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))', gap: '15px', paddingRight: '5px' }}>
+          {filteredImages.map((img, i) => (
+            <div key={i} onClick={() => onSelect(`${apiUrl}${img.url}`)} style={{ position: 'relative', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '5px', padding: '10px', border: '1px solid #e2e8f0', borderRadius: '8px', transition: 'transform 0.2s' }} onMouseOver={e => e.currentTarget.style.transform = 'scale(1.05)'} onMouseOut={e => e.currentTarget.style.transform = 'scale(1)'}>
+              <img src={`${apiUrl}${img.url}`} alt={img.title} style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '8px' }} />
+              <span style={{ fontSize: '0.75rem', textAlign: 'center', wordBreak: 'break-word', width: '100%', color: '#475569', paddingBottom: '20px' }}>{img.title || img.filename}</span>
+              
+              <div style={{ position: 'absolute', bottom: '5px', display: 'flex', gap: '10px' }}>
+                <button 
+                  onClick={(e) => handleRename(e, img)}
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.9rem', padding: '0' }}
+                  title="Renommer"
+                >
+                  ✏️
+                </button>
+                <button 
+                  onClick={(e) => handleDelete(e, img)}
+                  style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: '0.9rem', padding: '0' }}
+                  title="Supprimer"
+                >
+                  🗑️
+                </button>
+              </div>
+            </div>
+          ))}
+          {filteredImages.length === 0 && <p style={{ gridColumn: '1 / -1', textAlign: 'center', color: '#64748b' }}>Aucune image trouvée.</p>}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 interface FlowEditorProps {
   initialFlow: QuizFlow;
   onFlowChange: (flow: QuizFlow) => void;
@@ -63,6 +170,7 @@ export const FlowEditor: React.FC<FlowEditorProps> = ({ initialFlow, onFlowChang
   const [clipboard, setClipboard] = useState<Node[]>([]);
   const [startNodeId, setStartNodeId] = useState<string>(initialFlow.startNodeId);
   const [theme, setTheme] = useState(initialFlow.theme);
+  const [showBrowserFor, setShowBrowserFor] = useState<'node' | 'theme' | null>(null);
 
   const handleImport = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -105,6 +213,42 @@ export const FlowEditor: React.FC<FlowEditorProps> = ({ initialFlow, onFlowChang
       }
     };
     reader.readAsText(file);
+  };
+
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>, callback: (url: string) => void) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const title = window.prompt("Donnez un titre à cette image (optionnel) :", file.name);
+
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      try {
+        const base64 = e.target?.result as string;
+        const rawApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+        const apiUrl = rawApiUrl.endsWith('/api') ? rawApiUrl.slice(0, -4) : rawApiUrl;
+        
+        const response = await fetch(`${apiUrl}/api/upload`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ image: base64, title: title || file.name })
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success) {
+            callback(`${apiUrl}${data.url}`);
+          } else {
+            alert("Erreur: " + data.message);
+          }
+        }
+      } catch (err) {
+        console.error('Error uploading image', err);
+        alert('Erreur de connexion');
+      }
+    };
+    reader.readAsDataURL(file);
+    event.target.value = ''; // Reset the input
   };
 
   // Sync isStartNode visually
@@ -266,11 +410,10 @@ export const FlowEditor: React.FC<FlowEditorProps> = ({ initialFlow, onFlowChang
   };
 
   return (
-    <div style={{ width: '100%', height: '100%', background: '#f8fafc', display: 'flex' }}>
+    <div className="editor-layout" style={{ width: '100%', height: '100%', background: '#f8fafc', display: 'flex' }}>
       
       {selectedNode ? (
-        <div style={{ 
-          width: '350px', 
+        <div className="editor-sidebar" style={{ 
           background: 'white', 
           borderRight: '1px solid #e2e8f0', 
           padding: '1.5rem',
@@ -350,14 +493,52 @@ export const FlowEditor: React.FC<FlowEditorProps> = ({ initialFlow, onFlowChang
           </div>
 
           <div className="property-group">
-            <label style={{ display: 'block', fontSize: '0.8rem', color: '#64748b', marginBottom: '0.4rem' }}>Avatar de l'assistant (Spécifique à ce nœud, URL d'image/GIF)</label>
+            <label style={{ display: 'block', fontSize: '0.8rem', color: '#64748b', marginBottom: '0.4rem' }}>Avatar de l'assistant (Spécifique à ce nœud)</label>
             <input 
               type="text" 
               value={selectedNode.data.botAvatar || ''} 
               onChange={(e) => updateNodeData({ botAvatar: e.target.value })}
               style={{ width: '100%', padding: '0.5rem', border: '1px solid #e2e8f0', borderRadius: '4px', color: '#1e293b', background: 'white' }}
-              placeholder="Laisser vide pour utiliser l'avatar par défaut"
+              placeholder="URL de l'image, ou téléversez ci-dessous"
             />
+            <div style={{ display: 'flex', gap: '10px', marginTop: '0.5rem' }}>
+              <label style={{ 
+                padding: '4px 8px', 
+                background: '#f1f5f9', 
+                border: '1px solid #cbd5e1', 
+                borderRadius: '4px', 
+                fontSize: '0.75rem', 
+                cursor: 'pointer',
+                color: '#475569'
+              }}>
+                📤 Téléverser
+                <input 
+                  type="file" 
+                  accept="image/*" 
+                  onChange={(e) => handleImageUpload(e, (url) => updateNodeData({ botAvatar: url }))}
+                  style={{ display: 'none' }}
+                />
+              </label>
+              <button 
+                onClick={() => setShowBrowserFor('node')}
+                style={{ 
+                  padding: '4px 8px', 
+                  background: '#f8fafc', 
+                  border: '1px solid #cbd5e1', 
+                  borderRadius: '4px', 
+                  fontSize: '0.75rem', 
+                  cursor: 'pointer',
+                  color: '#475569'
+                }}
+              >
+                🔍 Parcourir
+              </button>
+            </div>
+            {selectedNode.data.botAvatar && (
+              <div style={{ marginTop: '0.5rem', display: 'flex', justifyContent: 'center', background: '#f1f5f9', padding: '10px', borderRadius: '6px' }}>
+                <img src={selectedNode.data.botAvatar} alt="Avatar spécifique" style={{ width: '60px', height: '60px', borderRadius: '50%', objectFit: 'cover' }} />
+              </div>
+            )}
           </div>
 
           {['input', 'choice', 'date', 'rating'].includes(selectedNode.data.type) && (
@@ -447,8 +628,7 @@ export const FlowEditor: React.FC<FlowEditorProps> = ({ initialFlow, onFlowChang
           )}
         </div>
       ) : (
-        <div style={{ 
-          width: '350px', 
+        <div className="editor-sidebar" style={{ 
           background: 'white', 
           borderRight: '1px solid #e2e8f0', 
           padding: '1.5rem',
@@ -464,19 +644,99 @@ export const FlowEditor: React.FC<FlowEditorProps> = ({ initialFlow, onFlowChang
           </div>
 
           <div className="property-group">
-            <label style={{ display: 'block', fontSize: '0.8rem', color: '#64748b', marginBottom: '0.4rem' }}>Avatar de l'assistant par défaut (URL d'image/GIF)</label>
+            <label style={{ display: 'block', fontSize: '0.8rem', color: '#64748b', marginBottom: '0.4rem' }}>Avatar de l'assistant par défaut</label>
             <input 
               type="text" 
               value={theme.botAvatar || ''} 
               onChange={(e) => setTheme(prev => ({ ...prev, botAvatar: e.target.value }))}
               style={{ width: '100%', padding: '0.5rem', border: '1px solid #e2e8f0', borderRadius: '4px', color: '#1e293b', background: 'white' }}
-              placeholder="https://exemple.com/bot-avatar.gif"
+              placeholder="URL de l'image, ou téléversez ci-dessous"
             />
+            <div style={{ display: 'flex', gap: '10px', marginTop: '0.5rem' }}>
+              <label style={{ 
+                padding: '4px 8px', 
+                background: '#f1f5f9', 
+                border: '1px solid #cbd5e1', 
+                borderRadius: '4px', 
+                fontSize: '0.75rem', 
+                cursor: 'pointer',
+                color: '#475569'
+              }}>
+                📤 Téléverser
+                <input 
+                  type="file" 
+                  accept="image/*" 
+                  onChange={(e) => handleImageUpload(e, (url) => setTheme(prev => ({ ...prev, botAvatar: url })))}
+                  style={{ display: 'none' }}
+                />
+              </label>
+              <button 
+                onClick={() => setShowBrowserFor('theme')}
+                style={{ 
+                  padding: '4px 8px', 
+                  background: '#f8fafc', 
+                  border: '1px solid #cbd5e1', 
+                  borderRadius: '4px', 
+                  fontSize: '0.75rem', 
+                  cursor: 'pointer',
+                  color: '#475569'
+                }}
+              >
+                🔍 Parcourir
+              </button>
+            </div>
             {theme.botAvatar && (
               <div style={{ marginTop: '0.5rem', display: 'flex', justifyContent: 'center', background: '#f1f5f9', padding: '10px', borderRadius: '6px' }}>
                 <img src={theme.botAvatar} alt="Avatar par défaut" style={{ width: '60px', height: '60px', borderRadius: '50%', objectFit: 'cover' }} />
               </div>
             )}
+          </div>
+
+          <div className="property-group">
+            <label style={{ display: 'block', fontSize: '0.8rem', color: '#64748b', marginBottom: '0.4rem' }}>Couleur Principale (Boutons, Avatar)</label>
+            <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+              <input 
+                type="color" 
+                value={theme.primaryColor || '#6366f1'} 
+                onChange={(e) => setTheme(prev => ({ ...prev, primaryColor: e.target.value }))}
+                style={{ width: '40px', height: '40px', padding: '0', border: 'none', cursor: 'pointer', borderRadius: '4px' }}
+              />
+              <input 
+                type="text" 
+                value={theme.primaryColor || '#6366f1'} 
+                onChange={(e) => setTheme(prev => ({ ...prev, primaryColor: e.target.value }))}
+                style={{ flex: 1, padding: '0.5rem', border: '1px solid #e2e8f0', borderRadius: '4px', color: '#1e293b', background: 'white' }}
+              />
+            </div>
+          </div>
+
+          <div className="property-group">
+            <label style={{ display: 'block', fontSize: '0.8rem', color: '#64748b', marginBottom: '0.4rem' }}>Couleur de Fond du Chat</label>
+            <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
+              <input 
+                type="color" 
+                value={theme.backgroundColor || '#f0f2f5'} 
+                onChange={(e) => setTheme(prev => ({ ...prev, backgroundColor: e.target.value }))}
+                style={{ width: '40px', height: '40px', padding: '0', border: 'none', cursor: 'pointer', borderRadius: '4px' }}
+              />
+              <input 
+                type="text" 
+                value={theme.backgroundColor || '#f0f2f5'} 
+                onChange={(e) => setTheme(prev => ({ ...prev, backgroundColor: e.target.value }))}
+                style={{ flex: 1, padding: '0.5rem', border: '1px solid #e2e8f0', borderRadius: '4px', color: '#1e293b', background: 'white' }}
+              />
+            </div>
+          </div>
+
+          <div className="property-group">
+            <label style={{ display: 'block', fontSize: '0.8rem', color: '#64748b', marginBottom: '0.4rem' }}>Police (Font Family)</label>
+            <input 
+              type="text" 
+              value={theme.fontFamily || 'Inter'} 
+              onChange={(e) => setTheme(prev => ({ ...prev, fontFamily: e.target.value }))}
+              style={{ width: '100%', padding: '0.5rem', border: '1px solid #e2e8f0', borderRadius: '4px', color: '#1e293b', background: 'white' }}
+              placeholder="ex: Inter, sans-serif"
+            />
           </div>
 
           <div className="property-group" style={{ marginTop: 'auto', borderTop: '1px solid #e2e8f0', paddingTop: '1.5rem' }}>
@@ -569,6 +829,25 @@ export const FlowEditor: React.FC<FlowEditorProps> = ({ initialFlow, onFlowChang
             onDuplicate={duplicateNodes} 
             onDelete={deleteSelectedNodes} 
             onClose={() => setMenu(null)} 
+          />
+        )}
+
+        {showBrowserFor === 'node' && (
+          <ImageBrowserModal 
+            onClose={() => setShowBrowserFor(null)} 
+            onSelect={(url) => {
+              updateNodeData({ botAvatar: url });
+              setShowBrowserFor(null);
+            }} 
+          />
+        )}
+        {showBrowserFor === 'theme' && (
+          <ImageBrowserModal 
+            onClose={() => setShowBrowserFor(null)} 
+            onSelect={(url) => {
+              setTheme(prev => ({ ...prev, botAvatar: url }));
+              setShowBrowserFor(null);
+            }} 
           />
         )}
       </div>

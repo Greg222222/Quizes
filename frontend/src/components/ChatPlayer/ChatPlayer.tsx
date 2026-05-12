@@ -143,7 +143,11 @@ export const ChatPlayer: React.FC<ChatPlayerProps> = ({ flow, onComplete }) => {
   const currentNode = flow.nodes.find(n => n.id === currentNodeId);
 
   return (
-    <div className="chat-container">
+    <div className="chat-container" style={{
+      '--chat-bg': flow.theme.backgroundColor || '#f0f2f5',
+      '--accent': flow.theme.primaryColor || '#6366f1',
+      fontFamily: flow.theme.fontFamily || 'Inter'
+    } as React.CSSProperties}>
       <div className="progress-bar">
         <div className="progress-fill" style={{ width: '30%' }}></div>
       </div>
@@ -198,12 +202,9 @@ export const ChatPlayer: React.FC<ChatPlayerProps> = ({ flow, onComplete }) => {
             </div>
           </div>
         )}
-        <div ref={messagesEndRef} />
-      </main>
-
-      <footer className="chat-controls">
+        
         {currentNode?.type === 'choice' && !isTyping && (
-          <div className="options-grid">
+          <div className="options-grid" style={{ marginTop: '1rem' }}>
             {currentNode.data?.options?.map(opt => (
               <button 
                 key={opt.id} 
@@ -215,6 +216,11 @@ export const ChatPlayer: React.FC<ChatPlayerProps> = ({ flow, onComplete }) => {
             ))}
           </div>
         )}
+        
+        <div ref={messagesEndRef} />
+      </main>
+
+      <footer className="chat-controls">
 
         {currentNode?.type === 'input' && !isTyping && (
           <div className="input-field">
