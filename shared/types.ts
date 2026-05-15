@@ -48,6 +48,7 @@ export interface QuizFlow {
     backgroundColor: string;
     fontFamily: string;
     botAvatar?: string;
+    botAvatarSize?: number;
   };
 }
 

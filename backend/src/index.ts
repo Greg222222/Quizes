@@ -456,6 +456,47 @@ app.delete('/api/flows/:id', (req, res) => {
   }
 });
 
+// Update Flow Endpoint
+app.put('/api/flows/:id', (req, res) => {
+  const { id } = req.params;
+  const updatedFlow = req.body;
+
+  // Find existing flow to preserve filename if not provided
+  const flowIndex = flows.findIndex(f => f.id === id);
+  
+  let fileName = updatedFlow._fileName;
+  if (!fileName && flowIndex > -1) {
+    fileName = flows[flowIndex]._fileName;
+  }
+  if (!fileName) {
+    fileName = `${id}.json`;
+  }
+
+  // Update in-memory
+  const flowToSave = { ...updatedFlow, id, _fileName: fileName };
+  if (flowIndex > -1) {
+    flows[flowIndex] = flowToSave;
+  } else {
+    flows.push(flowToSave);
+  }
+
+  try {
+    const jsonDir = path.resolve(__dirname, '../json');
+    if (!fs.existsSync(jsonDir)) {
+      fs.mkdirSync(jsonDir, { recursive: true });
+    }
+    const filePath = path.join(jsonDir, fileName);
+    
+    // Don't save the internal _fileName to the actual JSON file if possible, 
+    // or just save the whole thing. The loader handles it.
+    fs.writeFileSync(filePath, JSON.stringify(flowToSave, null, 2), 'utf8');
+    res.json({ success: true, flow: flowToSave });
+  } catch (err) {
+    console.error('Error updating flow on disk:', err);
+    res.status(500).json({ success: false, message: 'Erreur lors de la sauvegarde' });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });

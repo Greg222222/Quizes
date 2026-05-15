@@ -154,9 +154,9 @@ export const ChatPlayer: React.FC<ChatPlayerProps> = ({ flow, onComplete }) => {
       
       <header className="chat-header">
         {flow.theme.botAvatar ? (
-          <img src={flow.theme.botAvatar} alt="Assistant" className="bot-avatar-img" style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }} />
+          <img src={flow.theme.botAvatar} alt="Assistant" className="bot-avatar-img" style={{ width: `${flow.theme.botAvatarSize || 40}px`, height: `${flow.theme.botAvatarSize || 40}px`, borderRadius: '50%', objectFit: 'cover' }} />
         ) : (
-          <div className="bot-avatar">AI</div>
+          <div className="bot-avatar" style={{ width: `${flow.theme.botAvatarSize || 40}px`, height: `${flow.theme.botAvatarSize || 40}px` }}>AI</div>
         )}
         <div className="bot-info">
           <strong>Assistant</strong>
@@ -169,9 +169,9 @@ export const ChatPlayer: React.FC<ChatPlayerProps> = ({ flow, onComplete }) => {
           <div key={msg.id} className={`message-row ${msg.role}`}>
             {msg.role === 'bot' && (
               msg.botAvatar ? (
-                <img src={msg.botAvatar} alt="Bot Avatar" className="message-avatar" />
+                <img src={msg.botAvatar} alt="Bot Avatar" className="message-avatar" style={{ width: `${(flow.theme.botAvatarSize || 40) * 0.8}px`, height: `${(flow.theme.botAvatarSize || 40) * 0.8}px` }} />
               ) : (
-                <div className="message-avatar fallback-avatar">AI</div>
+                <div className="message-avatar fallback-avatar" style={{ width: `${(flow.theme.botAvatarSize || 40) * 0.8}px`, height: `${(flow.theme.botAvatarSize || 40) * 0.8}px` }}>AI</div>
               )
             )}
             <div className={`message-bubble message-${msg.role}`}>
@@ -191,9 +191,9 @@ export const ChatPlayer: React.FC<ChatPlayerProps> = ({ flow, onComplete }) => {
         {isTyping && (
           <div className={`message-row bot`}>
             {flow.theme.botAvatar ? (
-              <img src={flow.theme.botAvatar} alt="Bot Avatar" className="message-avatar" />
+              <img src={flow.theme.botAvatar} alt="Bot Avatar" className="message-avatar" style={{ width: `${(flow.theme.botAvatarSize || 40) * 0.8}px`, height: `${(flow.theme.botAvatarSize || 40) * 0.8}px` }} />
             ) : (
-              <div className="message-avatar fallback-avatar">AI</div>
+              <div className="message-avatar fallback-avatar" style={{ width: `${(flow.theme.botAvatarSize || 40) * 0.8}px`, height: `${(flow.theme.botAvatarSize || 40) * 0.8}px` }}>AI</div>
             )}
             <div className="typing-indicator">
               <div className="dot"></div>

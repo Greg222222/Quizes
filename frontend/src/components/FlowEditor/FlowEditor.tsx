@@ -170,7 +170,7 @@ export const FlowEditor: React.FC<FlowEditorProps> = ({ initialFlow, onFlowChang
   const [clipboard, setClipboard] = useState<Node[]>([]);
   const [startNodeId, setStartNodeId] = useState<string>(initialFlow.startNodeId);
   const [theme, setTheme] = useState(initialFlow.theme);
-  const [showBrowserFor, setShowBrowserFor] = useState<'node' | 'theme' | null>(null);
+  const [showBrowserFor, setShowBrowserFor] = useState<'node-avatar' | 'node-media' | 'theme' | null>(null);
 
   const handleImport = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -243,7 +243,7 @@ export const FlowEditor: React.FC<FlowEditorProps> = ({ initialFlow, onFlowChang
           }
         }
       } catch (err) {
-        console.error('Error uploading image', err);
+        console.error('Error uploading media', err);
         alert('Erreur de connexion');
       }
     };
@@ -480,6 +480,42 @@ export const FlowEditor: React.FC<FlowEditorProps> = ({ initialFlow, onFlowChang
               style={{ width: '100%', padding: '0.5rem', border: '1px solid #e2e8f0', borderRadius: '4px', marginBottom: '0.5rem', color: '#1e293b', background: 'white' }}
               placeholder="https://exemple.com/image.gif"
             />
+            <div style={{ display: 'flex', gap: '10px', marginBottom: '0.5rem' }}>
+              <label style={{ 
+                padding: '4px 8px', 
+                background: '#f1f5f9', 
+                border: '1px solid #cbd5e1', 
+                borderRadius: '4px', 
+                fontSize: '0.75rem', 
+                cursor: 'pointer',
+                color: '#475569'
+              }}>
+                📤 Téléverser
+                <input 
+                  type="file" 
+                  accept="image/*,video/*" 
+                  onChange={(e) => {
+                    const isVideo = e.target.files?.[0]?.type.startsWith('video');
+                    handleImageUpload(e, (url) => updateNodeData({ mediaUrl: url, mediaType: isVideo ? 'video' : 'image' }));
+                  }}
+                  style={{ display: 'none' }}
+                />
+              </label>
+              <button 
+                onClick={() => setShowBrowserFor('node-media')}
+                style={{ 
+                  padding: '4px 8px', 
+                  background: '#f8fafc', 
+                  border: '1px solid #cbd5e1', 
+                  borderRadius: '4px', 
+                  fontSize: '0.75rem', 
+                  cursor: 'pointer',
+                  color: '#475569'
+                }}
+              >
+                🔍 Parcourir
+              </button>
+            </div>
             {selectedNode.data.mediaUrl && (
               <select 
                 value={selectedNode.data.mediaType || 'image'} 
@@ -520,7 +556,7 @@ export const FlowEditor: React.FC<FlowEditorProps> = ({ initialFlow, onFlowChang
                 />
               </label>
               <button 
-                onClick={() => setShowBrowserFor('node')}
+                onClick={() => setShowBrowserFor('node-avatar')}
                 style={{ 
                   padding: '4px 8px', 
                   background: '#f8fafc', 
@@ -687,9 +723,21 @@ export const FlowEditor: React.FC<FlowEditorProps> = ({ initialFlow, onFlowChang
             </div>
             {theme.botAvatar && (
               <div style={{ marginTop: '0.5rem', display: 'flex', justifyContent: 'center', background: '#f1f5f9', padding: '10px', borderRadius: '6px' }}>
-                <img src={theme.botAvatar} alt="Avatar par défaut" style={{ width: '60px', height: '60px', borderRadius: '50%', objectFit: 'cover' }} />
+                <img src={theme.botAvatar} alt="Avatar par défaut" style={{ width: `${theme.botAvatarSize || 40}px`, height: `${theme.botAvatarSize || 40}px`, borderRadius: '50%', objectFit: 'cover' }} />
               </div>
             )}
+          </div>
+
+          <div className="property-group">
+            <label style={{ display: 'block', fontSize: '0.8rem', color: '#64748b', marginBottom: '0.4rem' }}>Taille de l'avatar ({theme.botAvatarSize || 40}px)</label>
+            <input 
+              type="range" 
+              min="20" 
+              max="150" 
+              value={theme.botAvatarSize || 40} 
+              onChange={(e) => setTheme(prev => ({ ...prev, botAvatarSize: Number(e.target.value) }))}
+              style={{ width: '100%', cursor: 'pointer', accentColor: '#6366f1' }}
+            />
           </div>
 
           <div className="property-group">
@@ -832,11 +880,22 @@ export const FlowEditor: React.FC<FlowEditorProps> = ({ initialFlow, onFlowChang
           />
         )}
 
-        {showBrowserFor === 'node' && (
+        {showBrowserFor === 'node-avatar' && (
           <ImageBrowserModal 
             onClose={() => setShowBrowserFor(null)} 
             onSelect={(url) => {
               updateNodeData({ botAvatar: url });
+              setShowBrowserFor(null);
+            }} 
+          />
+        )}
+
+        {showBrowserFor === 'node-media' && (
+          <ImageBrowserModal 
+            onClose={() => setShowBrowserFor(null)} 
+            onSelect={(url) => {
+              const isVideo = url.match(/\.(mp4|webm|ogg)$/i);
+              updateNodeData({ mediaUrl: url, mediaType: isVideo ? 'video' : 'image' });
               setShowBrowserFor(null);
             }} 
           />

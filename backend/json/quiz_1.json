@@ -1,167 +1,1243 @@
 {
-  "quiz_titre": "Quiz : L'inclusion numÃ©rique en France (DonnÃ©es Insee 2026)",
-  "questions": [
+  "id": "flow_quiz_1_1778832815724",
+  "name": "Quiz : L'inclusion numérique en France (Données Insee 2026)",
+  "startNodeId": "node_1_question",
+  "theme": {
+    "primaryColor": "#6366f1",
+    "backgroundColor": "#f8fafc",
+    "fontFamily": "Inter",
+    "botAvatarSize": 102,
+    "botAvatar": "https://api.dicebear.com/7.x/avataaars/svg?seed=Felix"
+  },
+  "nodes": [
     {
-      "id": 1,
-      "question": "En 2025, quelle part de la population franÃ§aise (16-74 ans) manque de compÃ©tences numÃ©riques de base ?",
-      "options": [
-        "7 %",
-        "27 %",
-        "34 %",
-        "38 %"
-      ],
-      "reponse_correcte": "34 %",
-      "feedback_succes": "Bravo ! C'est exactement cela. [cite: 12] Vous avez bien notÃ© qu'une personne sur trois est en difficultÃ© numÃ©rique en France. [cite: 3] Ce chiffre englobe Ã  la fois l'illectronisme et les compÃ©tences jugÃ©es faibles. [cite: 37]",
-      "feedback_erreur": "Ce n'est pas la bonne rÃ©ponse. En 2025, 34 % de la population de 16 Ã  74 ans manque de compÃ©tences numÃ©riques de base. [cite: 12] Ce taux a diminuÃ© de 4 points depuis 2021. [cite: 13, 37]"
+      "id": "node_1_question",
+      "type": "choice",
+      "content": "En 2025, quelle part de la population française (16-74 ans) manque de compétences numériques de base ?",
+      "position": {
+        "x": 300,
+        "y": 50
+      },
+      "data": {
+        "type": "choice",
+        "label": "En 2025, quelle part de la population française (16-74 ans) manque de compétences numériques de base ?",
+        "content": "En 2025, quelle part de la population française (16-74 ans) manque de compétences numériques de base ?",
+        "variableName": "q_1",
+        "options": [
+          {
+            "id": "opt_1_0",
+            "label": "7 %",
+            "value": "7 %",
+            "isCorrect": false,
+            "nextId": "node_1_error"
+          },
+          {
+            "id": "opt_1_1",
+            "label": "27 %",
+            "value": "27 %",
+            "isCorrect": false,
+            "nextId": "node_1_error"
+          },
+          {
+            "id": "opt_1_2",
+            "label": "34 %",
+            "value": "34 %",
+            "isCorrect": true,
+            "scoreValue": 1,
+            "nextId": "node_1_success"
+          },
+          {
+            "id": "opt_1_3",
+            "label": "38 %",
+            "value": "38 %",
+            "isCorrect": false,
+            "nextId": "node_1_error"
+          }
+        ],
+        "isStartNode": true
+      },
+      "branches": [
+        {
+          "operator": "equals",
+          "value": "7 %",
+          "nextNodeId": "node_1_error"
+        },
+        {
+          "operator": "equals",
+          "value": "27 %",
+          "nextNodeId": "node_1_error"
+        },
+        {
+          "operator": "equals",
+          "value": "34 %",
+          "nextNodeId": "node_1_success"
+        },
+        {
+          "operator": "equals",
+          "value": "38 %",
+          "nextNodeId": "node_1_error"
+        }
+      ]
     },
     {
-      "id": 2,
-      "question": "Quel est le pourcentage de FranÃ§ais en situation d'illectronisme total en 2025 ?",
-      "options": [
-        "2 %",
-        "5 %",
-        "7 %",
-        "10 %"
-      ],
-      "reponse_correcte": "7 %",
-      "feedback_succes": "Excellent ! Vous avez l'Å“il pour les statistiques. [cite: 21] L'illectronisme touche 7 % des FranÃ§ais, regroupant 5 % de non-internautes et 2 % d'internautes n'ayant aucune compÃ©tence. [cite: 21]",
-      "feedback_erreur": "C'est une erreur. Le taux d'illectronisme en France est de 7 %. [cite: 21] Il se dÃ©compose en 5 % de personnes n'utilisant jamais Internet et 2 % d'utilisateurs sans aucune compÃ©tence numÃ©rique. [cite: 21]"
+      "id": "node_1_success",
+      "type": "message",
+      "content": "Bravo ! C'est exactement cela. [cite: 12] Vous avez bien noté qu'une personne sur trois est en difficulté numérique en France. [cite: 3] Ce chiffre englobe à la fois l'illectronisme et les compétences jugées faibles. [cite: 37]",
+      "position": {
+        "x": 50,
+        "y": 230
+      },
+      "data": {
+        "type": "message",
+        "label": "Bravo ! C'est exactement cela. [cite: 12] Vous avez bien noté qu'une personne sur trois est en difficulté numérique en France. [cite: 3] Ce chiffre englobe à la fois l'illectronisme et les compétences jugées faibles. [cite: 37]",
+        "content": "Bravo ! C'est exactement cela. [cite: 12] Vous avez bien noté qu'une personne sur trois est en difficulté numérique en France. [cite: 3] Ce chiffre englobe à la fois l'illectronisme et les compétences jugées faibles. [cite: 37]",
+        "isStartNode": false
+      },
+      "nextId": "node_2_question"
     },
     {
-      "id": 3,
-      "question": "Quel domaine numÃ©rique est le mieux maÃ®trisÃ© par la population franÃ§aise ?",
-      "options": [
-        "L'usage de logiciels",
-        "La communication",
-        "La protection de la vie privÃ©e",
-        "La rÃ©solution de problÃ¨mes"
-      ],
-      "reponse_correcte": "La communication",
-      "feedback_succes": "Parfait ! La communication (mails, rÃ©seaux sociaux, appels Internet) est le domaine le mieux maÃ®trisÃ© par l'ensemble des internautes. [cite: 14] 85 % de la population possÃ¨de des notions avancÃ©es dans ce domaine. [cite: 47]",
-      "feedback_erreur": "C'est inexact. Le domaine de la communication est le mieux maÃ®trisÃ© : 85 % des FranÃ§ais y ont des notions avancÃ©es. [cite: 47] Ã€ l'inverse, l'usage de logiciels et la protection de la vie privÃ©e sont les moins maÃ®trisÃ©s. [cite: 76]"
+      "id": "node_1_error",
+      "type": "message",
+      "content": "Ce n'est pas la bonne réponse. En 2025, 34 % de la population de 16 à 74 ans manque de compétences numériques de base. [cite: 12] Ce taux a diminué de 4 points depuis 2021. [cite: 13, 37]",
+      "position": {
+        "x": 550,
+        "y": 230
+      },
+      "data": {
+        "type": "message",
+        "label": "Ce n'est pas la bonne réponse. En 2025, 34 % de la population de 16 à 74 ans manque de compétences numériques de base. [cite: 12] Ce taux a diminué de 4 points depuis 2021. [cite: 13, 37]",
+        "content": "Ce n'est pas la bonne réponse. En 2025, 34 % de la population de 16 à 74 ans manque de compétences numériques de base. [cite: 12] Ce taux a diminué de 4 points depuis 2021. [cite: 13, 37]",
+        "isStartNode": false
+      },
+      "nextId": "node_2_question"
     },
     {
-      "id": 4,
-      "question": "Quelle proportion des 16-74 ans a utilisÃ© une IA gÃ©nÃ©rative (IAG) dÃ©but 2025 ?",
-      "options": [
-        "18 %",
-        "37 %",
-        "62 %",
-        "85 %"
-      ],
-      "reponse_correcte": "37 %",
-      "feedback_succes": "C'est juste ! L'usage de l'intelligence artificielle gÃ©nÃ©rative progresse et concerne dÃ©sormais 37 % des personnes de 16 Ã  74 ans. [cite: 97] Une sur deux l'utilise pour un motif professionnel. [cite: 98]",
-      "feedback_erreur": "DÃ©solÃ©, la rÃ©ponse correcte est 37 %. [cite: 97] Ce taux grimpe Ã  85 % chez les Ã©tudiants [cite: 100], mais tombe Ã  18 % pour les personnes ayant dÃ©jÃ  de faibles compÃ©tences numÃ©riques. [cite: 108]"
+      "id": "node_2_question",
+      "type": "choice",
+      "content": "Quel est le pourcentage de Français en situation d'illectronisme total en 2025 ?",
+      "position": {
+        "x": 300,
+        "y": 430
+      },
+      "data": {
+        "type": "choice",
+        "label": "Quel est le pourcentage de Français en situation d'illectronisme total en 2025 ?",
+        "content": "Quel est le pourcentage de Français en situation d'illectronisme total en 2025 ?",
+        "variableName": "q_2",
+        "options": [
+          {
+            "id": "opt_2_0",
+            "label": "2 %",
+            "value": "2 %",
+            "isCorrect": false,
+            "nextId": "node_2_error"
+          },
+          {
+            "id": "opt_2_1",
+            "label": "5 %",
+            "value": "5 %",
+            "isCorrect": false,
+            "nextId": "node_2_error"
+          },
+          {
+            "id": "opt_2_2",
+            "label": "7 %",
+            "value": "7 %",
+            "isCorrect": true,
+            "scoreValue": 1,
+            "nextId": "node_2_success"
+          },
+          {
+            "id": "opt_2_3",
+            "label": "10 %",
+            "value": "10 %",
+            "isCorrect": false,
+            "nextId": "node_2_error"
+          }
+        ],
+        "isStartNode": false
+      },
+      "branches": [
+        {
+          "operator": "equals",
+          "value": "2 %",
+          "nextNodeId": "node_2_error"
+        },
+        {
+          "operator": "equals",
+          "value": "5 %",
+          "nextNodeId": "node_2_error"
+        },
+        {
+          "operator": "equals",
+          "value": "7 %",
+          "nextNodeId": "node_2_success"
+        },
+        {
+          "operator": "equals",
+          "value": "10 %",
+          "nextNodeId": "node_2_error"
+        }
+      ]
     },
     {
-      "id": 5,
-      "question": "Quelle est la raison principale du non-usage de l'IA gÃ©nÃ©rative ?",
-      "options": [
-        "Le manque de compÃ©tences",
-        "La crainte pour la vie privÃ©e",
-        "L'absence de besoin ressenti",
-        "Le coÃ»t des outils"
-      ],
-      "reponse_correcte": "L'absence de besoin ressenti",
-      "feedback_succes": "TrÃ¨s bien analysÃ© ! PrÃ¨s de 60 % des non-utilisateurs dÃ©clarent ne pas en ressentir le besoin, quel que soit leur Ã¢ge ou leur diplÃ´me. [cite: 109] Cela montre que l'utilitÃ© de l'IA n'est pas encore perÃ§ue par tous.",
-      "feedback_erreur": "Ce n'est pas tout Ã  fait cela. La raison principale citÃ©e par 60 % des non-utilisateurs est qu'ils n'en ressentent pas le besoin. [cite: 109] Le manque de compÃ©tences et la protection de la vie privÃ©e sont moins citÃ©s. [cite: 110]"
+      "id": "node_2_success",
+      "type": "message",
+      "content": "Excellent ! Vous avez l'œil pour les statistiques. [cite: 21] L'illectronisme touche 7 % des Français, regroupant 5 % de non-internautes et 2 % d'internautes n'ayant aucune compétence. [cite: 21]",
+      "position": {
+        "x": 50,
+        "y": 610
+      },
+      "data": {
+        "type": "message",
+        "label": "Excellent ! Vous avez l'œil pour les statistiques. [cite: 21] L'illectronisme touche 7 % des Français, regroupant 5 % de non-internautes et 2 % d'internautes n'ayant aucune compétence. [cite: 21]",
+        "content": "Excellent ! Vous avez l'œil pour les statistiques. [cite: 21] L'illectronisme touche 7 % des Français, regroupant 5 % de non-internautes et 2 % d'internautes n'ayant aucune compétence. [cite: 21]",
+        "isStartNode": false
+      },
+      "nextId": "node_3_question"
     },
     {
-      "id": 6,
-      "question": "Chez les 75 ans ou plus, quelle est la part de personnes manquant de compÃ©tences numÃ©riques ?",
-      "options": [
-        "33 %",
-        "54 %",
-        "82 %",
-        "95 %"
-      ],
-      "reponse_correcte": "82 %",
-      "feedback_succes": "C'est exact ! C'est la tranche d'Ã¢ge la plus fragile : 82 % manquent de compÃ©tences, dont 49 % sont totalement non-internautes. [cite: 18, 135] C'est un dÃ©fi majeur pour l'inclusion.",
-      "feedback_erreur": "C'est beaucoup plus ! Chez les 75 ans ou plus, 82 % manquent de compÃ©tences numÃ©riques. [cite: 18] PrÃ¨s de la moitiÃ© (49 %) n'utilisent jamais Internet. [cite: 135]"
+      "id": "node_2_error",
+      "type": "message",
+      "content": "C'est une erreur. Le taux d'illectronisme en France est de 7 %. [cite: 21] Il se décompose en 5 % de personnes n'utilisant jamais Internet et 2 % d'utilisateurs sans aucune compétence numérique. [cite: 21]",
+      "position": {
+        "x": 550,
+        "y": 610
+      },
+      "data": {
+        "type": "message",
+        "label": "C'est une erreur. Le taux d'illectronisme en France est de 7 %. [cite: 21] Il se décompose en 5 % de personnes n'utilisant jamais Internet et 2 % d'utilisateurs sans aucune compétence numérique. [cite: 21]",
+        "content": "C'est une erreur. Le taux d'illectronisme en France est de 7 %. [cite: 21] Il se décompose en 5 % de personnes n'utilisant jamais Internet et 2 % d'utilisateurs sans aucune compétence numérique. [cite: 21]",
+        "isStartNode": false
+      },
+      "nextId": "node_3_question"
     },
     {
-      "id": 7,
-      "question": "Comment se situe le taux d'illectronisme en France par rapport Ã  la moyenne de l'Union europÃ©enne ?",
-      "options": [
-        "Au-dessus (France 9 %, UE 7 %)",
-        "En dessous (France 7 %, UE 9 %)",
-        "Ã€ Ã©galitÃ© (9 %)",
-        "La France a le taux le plus Ã©levÃ©"
-      ],
-      "reponse_correcte": "En dessous (France 7 %, UE 9 %)",
-      "feedback_succes": "Bien jouÃ© ! La France se situe lÃ©gÃ¨rement en dessous de la moyenne europÃ©enne avec 7 % d'illectronisme contre 9 % pour l'UE. [cite: 126, 127] Nous restons cependant loin derriÃ¨re les Pays-Bas (moins de 1 %). [cite: 127]",
-      "feedback_erreur": "C'est l'inverse. La France se situe lÃ©gÃ¨rement en dessous de la moyenne de l'UE avec 7 % d'illectronisme, alors que la moyenne europÃ©enne est de 9 %. [cite: 126, 127]"
+      "id": "node_3_question",
+      "type": "choice",
+      "content": "Quel domaine numérique est le mieux maîtrisé par la population française ?",
+      "position": {
+        "x": 300,
+        "y": 810
+      },
+      "data": {
+        "type": "choice",
+        "label": "Quel domaine numérique est le mieux maîtrisé par la population française ?",
+        "content": "Quel domaine numérique est le mieux maîtrisé par la population française ?",
+        "variableName": "q_3",
+        "options": [
+          {
+            "id": "opt_3_0",
+            "label": "L'usage de logiciels",
+            "value": "L'usage de logiciels",
+            "isCorrect": false,
+            "nextId": "node_3_error"
+          },
+          {
+            "id": "opt_3_1",
+            "label": "La communication",
+            "value": "La communication",
+            "isCorrect": true,
+            "scoreValue": 1,
+            "nextId": "node_3_success"
+          },
+          {
+            "id": "opt_3_2",
+            "label": "La protection de la vie privée",
+            "value": "La protection de la vie privée",
+            "isCorrect": false,
+            "nextId": "node_3_error"
+          },
+          {
+            "id": "opt_3_3",
+            "label": "La résolution de problèmes",
+            "value": "La résolution de problèmes",
+            "isCorrect": false,
+            "nextId": "node_3_error"
+          }
+        ],
+        "isStartNode": false
+      },
+      "branches": [
+        {
+          "operator": "equals",
+          "value": "L'usage de logiciels",
+          "nextNodeId": "node_3_error"
+        },
+        {
+          "operator": "equals",
+          "value": "La communication",
+          "nextNodeId": "node_3_success"
+        },
+        {
+          "operator": "equals",
+          "value": "La protection de la vie privée",
+          "nextNodeId": "node_3_error"
+        },
+        {
+          "operator": "equals",
+          "value": "La résolution de problèmes",
+          "nextNodeId": "node_3_error"
+        }
+      ]
     },
     {
-      "id": 8,
-      "question": "Quel facteur influe fortement sur les compÃ©tences numÃ©riques, quel que soit l'Ã¢ge ?",
-      "options": [
-        "Le genre",
-        "Le niveau de diplÃ´me",
-        "Le lieu d'habitation",
-        "La taille de la famille"
-      ],
-      "reponse_correcte": "Le niveau de diplÃ´me",
-      "feedback_succes": "Exactement ! Le niveau de compÃ©tences dÃ©pend fortement du diplÃ´me. [cite: 41] Par exemple, chez les 60-74 ans, l'illectronisme tombe Ã  2 % pour les titulaires d'un Bac+3 contre 15 % pour les titulaires d'un CAP-BEP. [cite: 42]",
-      "feedback_erreur": "La bonne rÃ©ponse est le niveau de diplÃ´me. [cite: 41] C'est un marqueur social fort : les personnes les moins diplÃ´mÃ©es sont beaucoup plus souvent en situation d'illectronisme, mÃªme chez les plus jeunes. [cite: 43]"
+      "id": "node_3_success",
+      "type": "message",
+      "content": "Parfait ! La communication (mails, réseaux sociaux, appels Internet) est le domaine le mieux maîtrisé par l'ensemble des internautes. [cite: 14] 85 % de la population possède des notions avancées dans ce domaine. [cite: 47]",
+      "position": {
+        "x": 50,
+        "y": 990
+      },
+      "data": {
+        "type": "message",
+        "label": "Parfait ! La communication (mails, réseaux sociaux, appels Internet) est le domaine le mieux maîtrisé par l'ensemble des internautes. [cite: 14] 85 % de la population possède des notions avancées dans ce domaine. [cite: 47]",
+        "content": "Parfait ! La communication (mails, réseaux sociaux, appels Internet) est le domaine le mieux maîtrisé par l'ensemble des internautes. [cite: 14] 85 % de la population possède des notions avancées dans ce domaine. [cite: 47]",
+        "isStartNode": false
+      },
+      "nextId": "node_4_question"
     },
     {
-      "id": 9,
-      "question": "Pourquoi les compÃ©tences en logiciels (traitement de texte, tableur) ont-elles baissÃ© depuis 2021 ?",
-      "options": [
-        "Les logiciels sont trop chers",
-        "L'usage accru des smartphones et tablettes",
-        "L'IA remplace ces outils",
-        "Le manque de formation Ã  l'Ã©cole"
-      ],
-      "reponse_correcte": "L'usage accru des smartphones et tablettes",
-      "feedback_succes": "Tout Ã  fait ! L'utilisation moindre des ordinateurs au bÃ©nÃ©fice des tablettes et smartphones rÃ©duit la pratique des logiciels bureautiques. [cite: 81] C'est une tendance mondiale Ã©galement observÃ©e en Espagne et en Italie. [cite: 79]",
-      "feedback_erreur": "La rÃ©ponse est liÃ©e Ã  l'Ã©volution du matÃ©riel. La baisse du niveau en logiciels s'explique par la moindre utilisation des ordinateurs au profit des tablettes et smartphones. [cite: 81]"
+      "id": "node_3_error",
+      "type": "message",
+      "content": "C'est inexact. Le domaine de la communication est le mieux maîtrisé : 85 % des Français y ont des notions avancées. [cite: 47] Ã€ l'inverse, l'usage de logiciels et la protection de la vie privée sont les moins maîtrisés. [cite: 76]",
+      "position": {
+        "x": 550,
+        "y": 990
+      },
+      "data": {
+        "type": "message",
+        "label": "C'est inexact. Le domaine de la communication est le mieux maîtrisé : 85 % des Français y ont des notions avancées. [cite: 47] Ã€ l'inverse, l'usage de logiciels et la protection de la vie privée sont les moins maîtrisés. [cite: 76]",
+        "content": "C'est inexact. Le domaine de la communication est le mieux maîtrisé : 85 % des Français y ont des notions avancées. [cite: 47] Ã€ l'inverse, l'usage de logiciels et la protection de la vie privée sont les moins maîtrisés. [cite: 76]",
+        "isStartNode": false
+      },
+      "nextId": "node_4_question"
     },
     {
-      "id": 10,
-      "question": "Quel est l'Ã©cart de compÃ©tences 'avancÃ©es' entre les hommes et les femmes en 2025 ?",
-      "options": [
-        "Il n'y a aucun Ã©cart",
-        "6 points (34 % des hommes contre 28 % des femmes)",
-        "15 points d'Ã©cart",
-        "Les femmes sont plus avancÃ©es"
-      ],
-      "reponse_correcte": "6 points (34 % des hommes contre 28 % des femmes)",
-      "feedback_succes": "C'est exact. Bien que les femmes soient lÃ©gÃ¨rement moins en situation d'illectronisme (6 % contre 7 %), elles ont moins souvent un niveau gÃ©nÃ©ral de compÃ©tences avancÃ©es. [cite: 44, 45]",
-      "feedback_erreur": "L'Ã©cart est de 6 points. Si 34 % des hommes ont des compÃ©tences avancÃ©es, seules 28 % des femmes atteignent ce niveau, malgrÃ© un taux d'illectronisme lÃ©gÃ¨rement plus faible chez ces derniÃ¨res. [cite: 44, 45]"
+      "id": "node_4_question",
+      "type": "choice",
+      "content": "Quelle proportion des 16-74 ans a utilisé une IA générative (IAG) début 2025 ?",
+      "position": {
+        "x": 300,
+        "y": 1190
+      },
+      "data": {
+        "type": "choice",
+        "label": "Quelle proportion des 16-74 ans a utilisé une IA générative (IAG) début 2025 ?",
+        "content": "Quelle proportion des 16-74 ans a utilisé une IA générative (IAG) début 2025 ?",
+        "variableName": "q_4",
+        "options": [
+          {
+            "id": "opt_4_0",
+            "label": "18 %",
+            "value": "18 %",
+            "isCorrect": false,
+            "nextId": "node_4_error"
+          },
+          {
+            "id": "opt_4_1",
+            "label": "37 %",
+            "value": "37 %",
+            "isCorrect": true,
+            "scoreValue": 1,
+            "nextId": "node_4_success"
+          },
+          {
+            "id": "opt_4_2",
+            "label": "62 %",
+            "value": "62 %",
+            "isCorrect": false,
+            "nextId": "node_4_error"
+          },
+          {
+            "id": "opt_4_3",
+            "label": "85 %",
+            "value": "85 %",
+            "isCorrect": false,
+            "nextId": "node_4_error"
+          }
+        ],
+        "isStartNode": false
+      },
+      "branches": [
+        {
+          "operator": "equals",
+          "value": "18 %",
+          "nextNodeId": "node_4_error"
+        },
+        {
+          "operator": "equals",
+          "value": "37 %",
+          "nextNodeId": "node_4_success"
+        },
+        {
+          "operator": "equals",
+          "value": "62 %",
+          "nextNodeId": "node_4_error"
+        },
+        {
+          "operator": "equals",
+          "value": "85 %",
+          "nextNodeId": "node_4_error"
+        }
+      ]
     },
     {
-      "id": 11,
-      "question": "Quelle est la part des personnes qui se sentent 'dÃ©passÃ©es' par les Ã©volutions numÃ©riques ?",
-      "options": [
-        "5 %",
-        "15 %",
-        "25 %",
-        "57 %"
-      ],
-      "reponse_correcte": "15 %",
-      "feedback_succes": "FÃ©licitations ! 15 % des FranÃ§ais se sentent dÃ©passÃ©s ou n'utilisent pas Internet. [cite: 83] Ce sentiment de fragilitÃ© numÃ©rique grimpe Ã  38 % chez les seniors ayant des compÃ©tences faibles. [cite: 93]",
-      "feedback_erreur": "C'est 15 %. [cite: 83] Ã€ l'inverse, 57 % de la population estime que ses compÃ©tences correspondent bien aux tÃ¢ches qu'elle doit ou souhaite accomplir. [cite: 84]"
+      "id": "node_4_success",
+      "type": "message",
+      "content": "C'est juste ! L'usage de l'intelligence artificielle générative progresse et concerne désormais 37 % des personnes de 16 à 74 ans. [cite: 97] Une sur deux l'utilise pour un motif professionnel. [cite: 98]",
+      "position": {
+        "x": 50,
+        "y": 1370
+      },
+      "data": {
+        "type": "message",
+        "label": "C'est juste ! L'usage de l'intelligence artificielle générative progresse et concerne désormais 37 % des personnes de 16 à 74 ans. [cite: 97] Une sur deux l'utilise pour un motif professionnel. [cite: 98]",
+        "content": "C'est juste ! L'usage de l'intelligence artificielle générative progresse et concerne désormais 37 % des personnes de 16 à 74 ans. [cite: 97] Une sur deux l'utilise pour un motif professionnel. [cite: 98]",
+        "isStartNode": false
+      },
+      "nextId": "node_5_question"
     },
     {
-      "id": 12,
-      "question": "Pourquoi la part d'internautes augmente-t-elle chez les plus de 75 ans ?",
-      "options": [
-        "Ils se forment massivement",
-        "L'IA les aide au quotidien",
-        "Un effet de gÃ©nÃ©ration",
-        "Le prix du matÃ©riel a baissÃ©"
-      ],
-      "reponse_correcte": "Un effet de gÃ©nÃ©ration",
-      "feedback_succes": "Exactement ! L'augmentation est liÃ©e au fait que les nouvelles personnes entrant dans cette tranche d'Ã¢ge utilisaient dÃ©jÃ  Internet auparavant. [cite: 133] Ce n'est pas dÃ» Ã  un changement de pratique des personnes dÃ©jÃ  Ã¢gÃ©es. [cite: 133]",
-      "feedback_erreur": "La rÃ©ponse est l'effet de gÃ©nÃ©ration. [cite: 133] Les nouveaux arrivants dans cette tranche d'Ã¢ge sont dÃ©jÃ  internautes, tandis que les plus anciens, souvent non-internautes, disparaissent. [cite: 133]"
+      "id": "node_4_error",
+      "type": "message",
+      "content": "Désolé, la réponse correcte est 37 %. [cite: 97] Ce taux grimpe à 85 % chez les étudiants [cite: 100], mais tombe à 18 % pour les personnes ayant déjà de faibles compétences numériques. [cite: 108]",
+      "position": {
+        "x": 550,
+        "y": 1370
+      },
+      "data": {
+        "type": "message",
+        "label": "Désolé, la réponse correcte est 37 %. [cite: 97] Ce taux grimpe à 85 % chez les étudiants [cite: 100], mais tombe à 18 % pour les personnes ayant déjà de faibles compétences numériques. [cite: 108]",
+        "content": "Désolé, la réponse correcte est 37 %. [cite: 97] Ce taux grimpe à 85 % chez les étudiants [cite: 100], mais tombe à 18 % pour les personnes ayant déjà de faibles compétences numériques. [cite: 108]",
+        "isStartNode": false
+      },
+      "nextId": "node_5_question"
+    },
+    {
+      "id": "node_5_question",
+      "type": "choice",
+      "content": "Quelle est la raison principale du non-usage de l'IA générative ?",
+      "position": {
+        "x": 300,
+        "y": 1570
+      },
+      "data": {
+        "type": "choice",
+        "label": "Quelle est la raison principale du non-usage de l'IA générative ?",
+        "content": "Quelle est la raison principale du non-usage de l'IA générative ?",
+        "variableName": "q_5",
+        "options": [
+          {
+            "id": "opt_5_0",
+            "label": "Le manque de compétences",
+            "value": "Le manque de compétences",
+            "isCorrect": false,
+            "nextId": "node_5_error"
+          },
+          {
+            "id": "opt_5_1",
+            "label": "La crainte pour la vie privée",
+            "value": "La crainte pour la vie privée",
+            "isCorrect": false,
+            "nextId": "node_5_error"
+          },
+          {
+            "id": "opt_5_2",
+            "label": "L'absence de besoin ressenti",
+            "value": "L'absence de besoin ressenti",
+            "isCorrect": true,
+            "scoreValue": 1,
+            "nextId": "node_5_success"
+          },
+          {
+            "id": "opt_5_3",
+            "label": "Le coût des outils",
+            "value": "Le coût des outils",
+            "isCorrect": false,
+            "nextId": "node_5_error"
+          }
+        ],
+        "isStartNode": false
+      },
+      "branches": [
+        {
+          "operator": "equals",
+          "value": "Le manque de compétences",
+          "nextNodeId": "node_5_error"
+        },
+        {
+          "operator": "equals",
+          "value": "La crainte pour la vie privée",
+          "nextNodeId": "node_5_error"
+        },
+        {
+          "operator": "equals",
+          "value": "L'absence de besoin ressenti",
+          "nextNodeId": "node_5_success"
+        },
+        {
+          "operator": "equals",
+          "value": "Le coût des outils",
+          "nextNodeId": "node_5_error"
+        }
+      ]
+    },
+    {
+      "id": "node_5_success",
+      "type": "message",
+      "content": "Très bien analysé ! Près de 60 % des non-utilisateurs déclarent ne pas en ressentir le besoin, quel que soit leur âge ou leur diplôme. [cite: 109] Cela montre que l'utilité de l'IA n'est pas encore perçue par tous.",
+      "position": {
+        "x": 50,
+        "y": 1750
+      },
+      "data": {
+        "type": "message",
+        "label": "Très bien analysé ! Près de 60 % des non-utilisateurs déclarent ne pas en ressentir le besoin, quel que soit leur âge ou leur diplôme. [cite: 109] Cela montre que l'utilité de l'IA n'est pas encore perçue par tous.",
+        "content": "Très bien analysé ! Près de 60 % des non-utilisateurs déclarent ne pas en ressentir le besoin, quel que soit leur âge ou leur diplôme. [cite: 109] Cela montre que l'utilité de l'IA n'est pas encore perçue par tous.",
+        "isStartNode": false
+      },
+      "nextId": "node_6_question"
+    },
+    {
+      "id": "node_5_error",
+      "type": "message",
+      "content": "Test Autosave System",
+      "position": {
+        "x": 550,
+        "y": 1750
+      },
+      "data": {
+        "type": "message",
+        "label": "Test Autosave System",
+        "content": "Test Autosave System",
+        "isStartNode": false,
+        "mediaUrl": "https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExajFmMm4zOG53cjFoaW9rdGRyY2RycW1vc3U2aW0xemtxZ3JzemRwdCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/12KrxHBV57A5Da/giphy.gif"
+      },
+      "nextId": "node_6_question"
+    },
+    {
+      "id": "node_6_question",
+      "type": "choice",
+      "content": "Chez les 75 ans ou plus, quelle est la part de personnes manquant de compétences numériques ?",
+      "position": {
+        "x": 300,
+        "y": 1950
+      },
+      "data": {
+        "type": "choice",
+        "label": "Chez les 75 ans ou plus, quelle est la part de personnes manquant de compétences numériques ?",
+        "content": "Chez les 75 ans ou plus, quelle est la part de personnes manquant de compétences numériques ?",
+        "variableName": "q_6",
+        "options": [
+          {
+            "id": "opt_6_0",
+            "label": "33 %",
+            "value": "33 %",
+            "isCorrect": false,
+            "nextId": "node_6_error"
+          },
+          {
+            "id": "opt_6_1",
+            "label": "54 %",
+            "value": "54 %",
+            "isCorrect": false,
+            "nextId": "node_6_error"
+          },
+          {
+            "id": "opt_6_2",
+            "label": "82 %",
+            "value": "82 %",
+            "isCorrect": true,
+            "scoreValue": 1,
+            "nextId": "node_6_success"
+          },
+          {
+            "id": "opt_6_3",
+            "label": "95 %",
+            "value": "95 %",
+            "isCorrect": false,
+            "nextId": "node_6_error"
+          }
+        ],
+        "isStartNode": false
+      },
+      "branches": [
+        {
+          "operator": "equals",
+          "value": "33 %",
+          "nextNodeId": "node_6_error"
+        },
+        {
+          "operator": "equals",
+          "value": "54 %",
+          "nextNodeId": "node_6_error"
+        },
+        {
+          "operator": "equals",
+          "value": "82 %",
+          "nextNodeId": "node_6_success"
+        },
+        {
+          "operator": "equals",
+          "value": "95 %",
+          "nextNodeId": "node_6_error"
+        }
+      ]
+    },
+    {
+      "id": "node_6_success",
+      "type": "message",
+      "content": "C'est exact ! C'est la tranche d'âge la plus fragile : 82 % manquent de compétences, dont 49 % sont totalement non-internautes. [cite: 18, 135] C'est un défi majeur pour l'inclusion.",
+      "position": {
+        "x": 50,
+        "y": 2130
+      },
+      "data": {
+        "type": "message",
+        "label": "C'est exact ! C'est la tranche d'âge la plus fragile : 82 % manquent de compétences, dont 49 % sont totalement non-internautes. [cite: 18, 135] C'est un défi majeur pour l'inclusion.",
+        "content": "C'est exact ! C'est la tranche d'âge la plus fragile : 82 % manquent de compétences, dont 49 % sont totalement non-internautes. [cite: 18, 135] C'est un défi majeur pour l'inclusion.",
+        "isStartNode": false
+      },
+      "nextId": "node_7_question"
+    },
+    {
+      "id": "node_6_error",
+      "type": "message",
+      "content": "C'est beaucoup plus ! Chez les 75 ans ou plus, 82 % manquent de compétences numériques. [cite: 18] Près de la moitié (49 %) n'utilisent jamais Internet. [cite: 135]",
+      "position": {
+        "x": 550,
+        "y": 2130
+      },
+      "data": {
+        "type": "message",
+        "label": "C'est beaucoup plus ! Chez les 75 ans ou plus, 82 % manquent de compétences numériques. [cite: 18] Près de la moitié (49 %) n'utilisent jamais Internet. [cite: 135]",
+        "content": "C'est beaucoup plus ! Chez les 75 ans ou plus, 82 % manquent de compétences numériques. [cite: 18] Près de la moitié (49 %) n'utilisent jamais Internet. [cite: 135]",
+        "isStartNode": false
+      },
+      "nextId": "node_7_question"
+    },
+    {
+      "id": "node_7_question",
+      "type": "choice",
+      "content": "Comment se situe le taux d'illectronisme en France par rapport à la moyenne de l'Union européenne ?",
+      "position": {
+        "x": 300,
+        "y": 2330
+      },
+      "data": {
+        "type": "choice",
+        "label": "Comment se situe le taux d'illectronisme en France par rapport à la moyenne de l'Union européenne ?",
+        "content": "Comment se situe le taux d'illectronisme en France par rapport à la moyenne de l'Union européenne ?",
+        "variableName": "q_7",
+        "options": [
+          {
+            "id": "opt_7_0",
+            "label": "Au-dessus (France 9 %, UE 7 %)",
+            "value": "Au-dessus (France 9 %, UE 7 %)",
+            "isCorrect": false,
+            "nextId": "node_7_error"
+          },
+          {
+            "id": "opt_7_1",
+            "label": "En dessous (France 7 %, UE 9 %)",
+            "value": "En dessous (France 7 %, UE 9 %)",
+            "isCorrect": true,
+            "scoreValue": 1,
+            "nextId": "node_7_success"
+          },
+          {
+            "id": "opt_7_2",
+            "label": "Ã€ égalité (9 %)",
+            "value": "Ã€ égalité (9 %)",
+            "isCorrect": false,
+            "nextId": "node_7_error"
+          },
+          {
+            "id": "opt_7_3",
+            "label": "La France a le taux le plus élevé",
+            "value": "La France a le taux le plus élevé",
+            "isCorrect": false,
+            "nextId": "node_7_error"
+          }
+        ],
+        "isStartNode": false
+      },
+      "branches": [
+        {
+          "operator": "equals",
+          "value": "Au-dessus (France 9 %, UE 7 %)",
+          "nextNodeId": "node_7_error"
+        },
+        {
+          "operator": "equals",
+          "value": "En dessous (France 7 %, UE 9 %)",
+          "nextNodeId": "node_7_success"
+        },
+        {
+          "operator": "equals",
+          "value": "Ã€ égalité (9 %)",
+          "nextNodeId": "node_7_error"
+        },
+        {
+          "operator": "equals",
+          "value": "La France a le taux le plus élevé",
+          "nextNodeId": "node_7_error"
+        }
+      ]
+    },
+    {
+      "id": "node_7_success",
+      "type": "message",
+      "content": "Bien joué ! La France se situe légèrement en dessous de la moyenne européenne avec 7 % d'illectronisme contre 9 % pour l'UE. [cite: 126, 127] Nous restons cependant loin derrière les Pays-Bas (moins de 1 %). [cite: 127]",
+      "position": {
+        "x": 50,
+        "y": 2510
+      },
+      "data": {
+        "type": "message",
+        "label": "Bien joué ! La France se situe légèrement en dessous de la moyenne européenne avec 7 % d'illectronisme contre 9 % pour l'UE. [cite: 126, 127] Nous restons cependant loin derrière les Pays-Bas (moins de 1 %). [cite: 127]",
+        "content": "Bien joué ! La France se situe légèrement en dessous de la moyenne européenne avec 7 % d'illectronisme contre 9 % pour l'UE. [cite: 126, 127] Nous restons cependant loin derrière les Pays-Bas (moins de 1 %). [cite: 127]",
+        "isStartNode": false
+      },
+      "nextId": "node_8_question"
+    },
+    {
+      "id": "node_7_error",
+      "type": "message",
+      "content": "C'est l'inverse. La France se situe légèrement en dessous de la moyenne de l'UE avec 7 % d'illectronisme, alors que la moyenne européenne est de 9 %. [cite: 126, 127]",
+      "position": {
+        "x": 550,
+        "y": 2510
+      },
+      "data": {
+        "type": "message",
+        "label": "C'est l'inverse. La France se situe légèrement en dessous de la moyenne de l'UE avec 7 % d'illectronisme, alors que la moyenne européenne est de 9 %. [cite: 126, 127]",
+        "content": "C'est l'inverse. La France se situe légèrement en dessous de la moyenne de l'UE avec 7 % d'illectronisme, alors que la moyenne européenne est de 9 %. [cite: 126, 127]",
+        "isStartNode": false
+      },
+      "nextId": "node_8_question"
+    },
+    {
+      "id": "node_8_question",
+      "type": "choice",
+      "content": "Quel facteur influe fortement sur les compétences numériques, quel que soit l'âge ?",
+      "position": {
+        "x": 300,
+        "y": 2710
+      },
+      "data": {
+        "type": "choice",
+        "label": "Quel facteur influe fortement sur les compétences numériques, quel que soit l'âge ?",
+        "content": "Quel facteur influe fortement sur les compétences numériques, quel que soit l'âge ?",
+        "variableName": "q_8",
+        "options": [
+          {
+            "id": "opt_8_0",
+            "label": "Le genre",
+            "value": "Le genre",
+            "isCorrect": false,
+            "nextId": "node_8_error"
+          },
+          {
+            "id": "opt_8_1",
+            "label": "Le niveau de diplôme",
+            "value": "Le niveau de diplôme",
+            "isCorrect": true,
+            "scoreValue": 1,
+            "nextId": "node_8_success"
+          },
+          {
+            "id": "opt_8_2",
+            "label": "Le lieu d'habitation",
+            "value": "Le lieu d'habitation",
+            "isCorrect": false,
+            "nextId": "node_8_error"
+          },
+          {
+            "id": "opt_8_3",
+            "label": "La taille de la famille",
+            "value": "La taille de la famille",
+            "isCorrect": false,
+            "nextId": "node_8_error"
+          }
+        ],
+        "isStartNode": false
+      },
+      "branches": [
+        {
+          "operator": "equals",
+          "value": "Le genre",
+          "nextNodeId": "node_8_error"
+        },
+        {
+          "operator": "equals",
+          "value": "Le niveau de diplôme",
+          "nextNodeId": "node_8_success"
+        },
+        {
+          "operator": "equals",
+          "value": "Le lieu d'habitation",
+          "nextNodeId": "node_8_error"
+        },
+        {
+          "operator": "equals",
+          "value": "La taille de la famille",
+          "nextNodeId": "node_8_error"
+        }
+      ]
+    },
+    {
+      "id": "node_8_success",
+      "type": "message",
+      "content": "Exactement ! Le niveau de compétences dépend fortement du diplôme. [cite: 41] Par exemple, chez les 60-74 ans, l'illectronisme tombe à 2 % pour les titulaires d'un Bac+3 contre 15 % pour les titulaires d'un CAP-BEP. [cite: 42]",
+      "position": {
+        "x": 50,
+        "y": 2890
+      },
+      "data": {
+        "type": "message",
+        "label": "Exactement ! Le niveau de compétences dépend fortement du diplôme. [cite: 41] Par exemple, chez les 60-74 ans, l'illectronisme tombe à 2 % pour les titulaires d'un Bac+3 contre 15 % pour les titulaires d'un CAP-BEP. [cite: 42]",
+        "content": "Exactement ! Le niveau de compétences dépend fortement du diplôme. [cite: 41] Par exemple, chez les 60-74 ans, l'illectronisme tombe à 2 % pour les titulaires d'un Bac+3 contre 15 % pour les titulaires d'un CAP-BEP. [cite: 42]",
+        "isStartNode": false
+      },
+      "nextId": "node_9_question"
+    },
+    {
+      "id": "node_8_error",
+      "type": "message",
+      "content": "La bonne réponse est le niveau de diplôme. [cite: 41] C'est un marqueur social fort : les personnes les moins diplômées sont beaucoup plus souvent en situation d'illectronisme, même chez les plus jeunes. [cite: 43]",
+      "position": {
+        "x": 550,
+        "y": 2890
+      },
+      "data": {
+        "type": "message",
+        "label": "La bonne réponse est le niveau de diplôme. [cite: 41] C'est un marqueur social fort : les personnes les moins diplômées sont beaucoup plus souvent en situation d'illectronisme, même chez les plus jeunes. [cite: 43]",
+        "content": "La bonne réponse est le niveau de diplôme. [cite: 41] C'est un marqueur social fort : les personnes les moins diplômées sont beaucoup plus souvent en situation d'illectronisme, même chez les plus jeunes. [cite: 43]",
+        "isStartNode": false
+      },
+      "nextId": "node_9_question"
+    },
+    {
+      "id": "node_9_question",
+      "type": "choice",
+      "content": "Pourquoi les compétences en logiciels (traitement de texte, tableur) ont-elles baissé depuis 2021 ?",
+      "position": {
+        "x": 300,
+        "y": 3090
+      },
+      "data": {
+        "type": "choice",
+        "label": "Pourquoi les compétences en logiciels (traitement de texte, tableur) ont-elles baissé depuis 2021 ?",
+        "content": "Pourquoi les compétences en logiciels (traitement de texte, tableur) ont-elles baissé depuis 2021 ?",
+        "variableName": "q_9",
+        "options": [
+          {
+            "id": "opt_9_0",
+            "label": "Les logiciels sont trop chers",
+            "value": "Les logiciels sont trop chers",
+            "isCorrect": false,
+            "nextId": "node_9_error"
+          },
+          {
+            "id": "opt_9_1",
+            "label": "L'usage accru des smartphones et tablettes",
+            "value": "L'usage accru des smartphones et tablettes",
+            "isCorrect": true,
+            "scoreValue": 1,
+            "nextId": "node_9_success"
+          },
+          {
+            "id": "opt_9_2",
+            "label": "L'IA remplace ces outils",
+            "value": "L'IA remplace ces outils",
+            "isCorrect": false,
+            "nextId": "node_9_error"
+          },
+          {
+            "id": "opt_9_3",
+            "label": "Le manque de formation à l'école",
+            "value": "Le manque de formation à l'école",
+            "isCorrect": false,
+            "nextId": "node_9_error"
+          }
+        ],
+        "isStartNode": false
+      },
+      "branches": [
+        {
+          "operator": "equals",
+          "value": "Les logiciels sont trop chers",
+          "nextNodeId": "node_9_error"
+        },
+        {
+          "operator": "equals",
+          "value": "L'usage accru des smartphones et tablettes",
+          "nextNodeId": "node_9_success"
+        },
+        {
+          "operator": "equals",
+          "value": "L'IA remplace ces outils",
+          "nextNodeId": "node_9_error"
+        },
+        {
+          "operator": "equals",
+          "value": "Le manque de formation à l'école",
+          "nextNodeId": "node_9_error"
+        }
+      ]
+    },
+    {
+      "id": "node_9_success",
+      "type": "message",
+      "content": "Tout à fait ! L'utilisation moindre des ordinateurs au bénéfice des tablettes et smartphones réduit la pratique des logiciels bureautiques. [cite: 81] C'est une tendance mondiale également observée en Espagne et en Italie. [cite: 79]",
+      "position": {
+        "x": 50,
+        "y": 3270
+      },
+      "data": {
+        "type": "message",
+        "label": "Tout à fait ! L'utilisation moindre des ordinateurs au bénéfice des tablettes et smartphones réduit la pratique des logiciels bureautiques. [cite: 81] C'est une tendance mondiale également observée en Espagne et en Italie. [cite: 79]",
+        "content": "Tout à fait ! L'utilisation moindre des ordinateurs au bénéfice des tablettes et smartphones réduit la pratique des logiciels bureautiques. [cite: 81] C'est une tendance mondiale également observée en Espagne et en Italie. [cite: 79]",
+        "isStartNode": false
+      },
+      "nextId": "node_10_question"
+    },
+    {
+      "id": "node_9_error",
+      "type": "message",
+      "content": "La réponse est liée à l'évolution du matériel. La baisse du niveau en logiciels s'explique par la moindre utilisation des ordinateurs au profit des tablettes et smartphones. [cite: 81]",
+      "position": {
+        "x": 550,
+        "y": 3270
+      },
+      "data": {
+        "type": "message",
+        "label": "La réponse est liée à l'évolution du matériel. La baisse du niveau en logiciels s'explique par la moindre utilisation des ordinateurs au profit des tablettes et smartphones. [cite: 81]",
+        "content": "La réponse est liée à l'évolution du matériel. La baisse du niveau en logiciels s'explique par la moindre utilisation des ordinateurs au profit des tablettes et smartphones. [cite: 81]",
+        "isStartNode": false
+      },
+      "nextId": "node_10_question"
+    },
+    {
+      "id": "node_10_question",
+      "type": "choice",
+      "content": "Quel est l'écart de compétences 'avancées' entre les hommes et les femmes en 2025 ?",
+      "position": {
+        "x": 300,
+        "y": 3470
+      },
+      "data": {
+        "type": "choice",
+        "label": "Quel est l'écart de compétences 'avancées' entre les hommes et les femmes en 2025 ?",
+        "content": "Quel est l'écart de compétences 'avancées' entre les hommes et les femmes en 2025 ?",
+        "variableName": "q_10",
+        "options": [
+          {
+            "id": "opt_10_0",
+            "label": "Il n'y a aucun écart",
+            "value": "Il n'y a aucun écart",
+            "isCorrect": false,
+            "nextId": "node_10_error"
+          },
+          {
+            "id": "opt_10_1",
+            "label": "6 points (34 % des hommes contre 28 % des femmes)",
+            "value": "6 points (34 % des hommes contre 28 % des femmes)",
+            "isCorrect": true,
+            "scoreValue": 1,
+            "nextId": "node_10_success"
+          },
+          {
+            "id": "opt_10_2",
+            "label": "15 points d'écart",
+            "value": "15 points d'écart",
+            "isCorrect": false,
+            "nextId": "node_10_error"
+          },
+          {
+            "id": "opt_10_3",
+            "label": "Les femmes sont plus avancées",
+            "value": "Les femmes sont plus avancées",
+            "isCorrect": false,
+            "nextId": "node_10_error"
+          }
+        ],
+        "isStartNode": false
+      },
+      "branches": [
+        {
+          "operator": "equals",
+          "value": "Il n'y a aucun écart",
+          "nextNodeId": "node_10_error"
+        },
+        {
+          "operator": "equals",
+          "value": "6 points (34 % des hommes contre 28 % des femmes)",
+          "nextNodeId": "node_10_success"
+        },
+        {
+          "operator": "equals",
+          "value": "15 points d'écart",
+          "nextNodeId": "node_10_error"
+        },
+        {
+          "operator": "equals",
+          "value": "Les femmes sont plus avancées",
+          "nextNodeId": "node_10_error"
+        }
+      ]
+    },
+    {
+      "id": "node_10_success",
+      "type": "message",
+      "content": "C'est exact. Bien que les femmes soient légèrement moins en situation d'illectronisme (6 % contre 7 %), elles ont moins souvent un niveau général de compétences avancées. [cite: 44, 45]",
+      "position": {
+        "x": 50,
+        "y": 3650
+      },
+      "data": {
+        "type": "message",
+        "label": "C'est exact. Bien que les femmes soient légèrement moins en situation d'illectronisme (6 % contre 7 %), elles ont moins souvent un niveau général de compétences avancées. [cite: 44, 45]",
+        "content": "C'est exact. Bien que les femmes soient légèrement moins en situation d'illectronisme (6 % contre 7 %), elles ont moins souvent un niveau général de compétences avancées. [cite: 44, 45]",
+        "isStartNode": false
+      },
+      "nextId": "node_11_question"
+    },
+    {
+      "id": "node_10_error",
+      "type": "message",
+      "content": "L'écart est de 6 points. Si 34 % des hommes ont des compétences avancées, seules 28 % des femmes atteignent ce niveau, malgré un taux d'illectronisme légèrement plus faible chez ces dernières. [cite: 44, 45]",
+      "position": {
+        "x": 550,
+        "y": 3650
+      },
+      "data": {
+        "type": "message",
+        "label": "L'écart est de 6 points. Si 34 % des hommes ont des compétences avancées, seules 28 % des femmes atteignent ce niveau, malgré un taux d'illectronisme légèrement plus faible chez ces dernières. [cite: 44, 45]",
+        "content": "L'écart est de 6 points. Si 34 % des hommes ont des compétences avancées, seules 28 % des femmes atteignent ce niveau, malgré un taux d'illectronisme légèrement plus faible chez ces dernières. [cite: 44, 45]",
+        "isStartNode": false
+      },
+      "nextId": "node_11_question"
+    },
+    {
+      "id": "node_11_question",
+      "type": "choice",
+      "content": "Quelle est la part des personnes qui se sentent 'dépassées' par les évolutions numériques ?",
+      "position": {
+        "x": 300,
+        "y": 3850
+      },
+      "data": {
+        "type": "choice",
+        "label": "Quelle est la part des personnes qui se sentent 'dépassées' par les évolutions numériques ?",
+        "content": "Quelle est la part des personnes qui se sentent 'dépassées' par les évolutions numériques ?",
+        "variableName": "q_11",
+        "options": [
+          {
+            "id": "opt_11_0",
+            "label": "5 %",
+            "value": "5 %",
+            "isCorrect": false,
+            "nextId": "node_11_error"
+          },
+          {
+            "id": "opt_11_1",
+            "label": "15 %",
+            "value": "15 %",
+            "isCorrect": true,
+            "scoreValue": 1,
+            "nextId": "node_11_success"
+          },
+          {
+            "id": "opt_11_2",
+            "label": "25 %",
+            "value": "25 %",
+            "isCorrect": false,
+            "nextId": "node_11_error"
+          },
+          {
+            "id": "opt_11_3",
+            "label": "57 %",
+            "value": "57 %",
+            "isCorrect": false,
+            "nextId": "node_11_error"
+          }
+        ],
+        "isStartNode": false
+      },
+      "branches": [
+        {
+          "operator": "equals",
+          "value": "5 %",
+          "nextNodeId": "node_11_error"
+        },
+        {
+          "operator": "equals",
+          "value": "15 %",
+          "nextNodeId": "node_11_success"
+        },
+        {
+          "operator": "equals",
+          "value": "25 %",
+          "nextNodeId": "node_11_error"
+        },
+        {
+          "operator": "equals",
+          "value": "57 %",
+          "nextNodeId": "node_11_error"
+        }
+      ]
+    },
+    {
+      "id": "node_11_success",
+      "type": "message",
+      "content": "Félicitations ! 15 % des Français se sentent dépassés ou n'utilisent pas Internet. [cite: 83] Ce sentiment de fragilité numérique grimpe à 38 % chez les seniors ayant des compétences faibles. [cite: 93]",
+      "position": {
+        "x": 50,
+        "y": 4030
+      },
+      "data": {
+        "type": "message",
+        "label": "Félicitations ! 15 % des Français se sentent dépassés ou n'utilisent pas Internet. [cite: 83] Ce sentiment de fragilité numérique grimpe à 38 % chez les seniors ayant des compétences faibles. [cite: 93]",
+        "content": "Félicitations ! 15 % des Français se sentent dépassés ou n'utilisent pas Internet. [cite: 83] Ce sentiment de fragilité numérique grimpe à 38 % chez les seniors ayant des compétences faibles. [cite: 93]",
+        "isStartNode": false
+      },
+      "nextId": "node_12_question"
+    },
+    {
+      "id": "node_11_error",
+      "type": "message",
+      "content": "C'est 15 %. [cite: 83] Ã€ l'inverse, 57 % de la population estime que ses compétences correspondent bien aux tâches qu'elle doit ou souhaite accomplir. [cite: 84]",
+      "position": {
+        "x": 550,
+        "y": 4030
+      },
+      "data": {
+        "type": "message",
+        "label": "C'est 15 %. [cite: 83] Ã€ l'inverse, 57 % de la population estime que ses compétences correspondent bien aux tâches qu'elle doit ou souhaite accomplir. [cite: 84]",
+        "content": "C'est 15 %. [cite: 83] Ã€ l'inverse, 57 % de la population estime que ses compétences correspondent bien aux tâches qu'elle doit ou souhaite accomplir. [cite: 84]",
+        "isStartNode": false
+      },
+      "nextId": "node_12_question"
+    },
+    {
+      "id": "node_12_question",
+      "type": "choice",
+      "content": "Pourquoi la part d'internautes augmente-t-elle chez les plus de 75 ans ?",
+      "position": {
+        "x": 300,
+        "y": 4230
+      },
+      "data": {
+        "type": "choice",
+        "label": "Pourquoi la part d'internautes augmente-t-elle chez les plus de 75 ans ?",
+        "content": "Pourquoi la part d'internautes augmente-t-elle chez les plus de 75 ans ?",
+        "variableName": "q_12",
+        "options": [
+          {
+            "id": "opt_12_0",
+            "label": "Ils se forment massivement",
+            "value": "Ils se forment massivement",
+            "isCorrect": false,
+            "nextId": "node_12_error"
+          },
+          {
+            "id": "opt_12_1",
+            "label": "L'IA les aide au quotidien",
+            "value": "L'IA les aide au quotidien",
+            "isCorrect": false,
+            "nextId": "node_12_error"
+          },
+          {
+            "id": "opt_12_2",
+            "label": "Un effet de génération",
+            "value": "Un effet de génération",
+            "isCorrect": true,
+            "scoreValue": 1,
+            "nextId": "node_12_success"
+          },
+          {
+            "id": "opt_12_3",
+            "label": "Le prix du matériel a baissé",
+            "value": "Le prix du matériel a baissé",
+            "isCorrect": false,
+            "nextId": "node_12_error"
+          }
+        ],
+        "isStartNode": false
+      },
+      "branches": [
+        {
+          "operator": "equals",
+          "value": "Ils se forment massivement",
+          "nextNodeId": "node_12_error"
+        },
+        {
+          "operator": "equals",
+          "value": "L'IA les aide au quotidien",
+          "nextNodeId": "node_12_error"
+        },
+        {
+          "operator": "equals",
+          "value": "Un effet de génération",
+          "nextNodeId": "node_12_success"
+        },
+        {
+          "operator": "equals",
+          "value": "Le prix du matériel a baissé",
+          "nextNodeId": "node_12_error"
+        }
+      ]
+    },
+    {
+      "id": "node_12_success",
+      "type": "message",
+      "content": "Exactement ! L'augmentation est liée au fait que les nouvelles personnes entrant dans cette tranche d'âge utilisaient déjà Internet auparavant. [cite: 133] Ce n'est pas dû à un changement de pratique des personnes déjà âgées. [cite: 133]",
+      "position": {
+        "x": 50,
+        "y": 4410
+      },
+      "data": {
+        "type": "message",
+        "label": "Exactement ! L'augmentation est liée au fait que les nouvelles personnes entrant dans cette tranche d'âge utilisaient déjà Internet auparavant. [cite: 133] Ce n'est pas dû à un changement de pratique des personnes déjà âgées. [cite: 133]",
+        "content": "Exactement ! L'augmentation est liée au fait que les nouvelles personnes entrant dans cette tranche d'âge utilisaient déjà Internet auparavant. [cite: 133] Ce n'est pas dû à un changement de pratique des personnes déjà âgées. [cite: 133]",
+        "isStartNode": false
+      },
+      "nextId": "node_terminal"
+    },
+    {
+      "id": "node_12_error",
+      "type": "message",
+      "content": "La réponse est l'effet de génération. [cite: 133] Les nouveaux arrivants dans cette tranche d'âge sont déjà internautes, tandis que les plus anciens, souvent non-internautes, disparaissent. [cite: 133]",
+      "position": {
+        "x": 550,
+        "y": 4410
+      },
+      "data": {
+        "type": "message",
+        "label": "La réponse est l'effet de génération. [cite: 133] Les nouveaux arrivants dans cette tranche d'âge sont déjà internautes, tandis que les plus anciens, souvent non-internautes, disparaissent. [cite: 133]",
+        "content": "La réponse est l'effet de génération. [cite: 133] Les nouveaux arrivants dans cette tranche d'âge sont déjà internautes, tandis que les plus anciens, souvent non-internautes, disparaissent. [cite: 133]",
+        "isStartNode": false
+      },
+      "nextId": "node_terminal"
+    },
+    {
+      "id": "node_terminal",
+      "type": "terminal",
+      "content": "Agir pour l'inclusion numérique avec Konexio\n\nL'illectronisme n'est pas une fatalité. L'association Konexio (www.konexio.eu) lutte activement contre l'exclusion numérique en France. Elle accompagne les personnes les plus éloignées du digital (réfugiés, jeunes sans diplôme, seniors) à travers des formations certifiantes. L'objectif : donner à chacun les compétences nécessaires pour s'insérer professionnellement et gagner en autonomie dans une société tout-numérique.\n\nVous pouvez soutenir cette mission et aider à réduire la fracture numérique en faisant un don.\n\nFaire un don : https://www.helloasso.com/associations/konexio/formulaires/1",
+      "position": {
+        "x": 300,
+        "y": 4610
+      },
+      "data": {
+        "type": "terminal",
+        "label": "Agir pour l'inclusion numérique avec Konexio\n\nL'illectronisme n'est pas une fatalité. L'association Konexio (www.konexio.eu) lutte activement contre l'exclusion numérique en France. Elle accompagne les personnes les plus éloignées du digital (réfugiés, jeunes sans diplôme, seniors) à travers des formations certifiantes. L'objectif : donner à chacun les compétences nécessaires pour s'insérer professionnellement et gagner en autonomie dans une société tout-numérique.\n\nVous pouvez soutenir cette mission et aider à réduire la fracture numérique en faisant un don.\n\nFaire un don : https://www.helloasso.com/associations/konexio/formulaires/1",
+        "content": "Agir pour l'inclusion numérique avec Konexio\n\nL'illectronisme n'est pas une fatalité. L'association Konexio (www.konexio.eu) lutte activement contre l'exclusion numérique en France. Elle accompagne les personnes les plus éloignées du digital (réfugiés, jeunes sans diplôme, seniors) à travers des formations certifiantes. L'objectif : donner à chacun les compétences nécessaires pour s'insérer professionnellement et gagner en autonomie dans une société tout-numérique.\n\nVous pouvez soutenir cette mission et aider à réduire la fracture numérique en faisant un don.\n\nFaire un don : https://www.helloasso.com/associations/konexio/formulaires/1",
+        "isStartNode": false
+      }
     }
   ],
-  "message_conclusion": {
-    "titre": "Agir pour l'inclusion numÃ©rique avec Konexio",
-    "description": "L'illectronisme n'est pas une fatalitÃ©. L'association Konexio (www.konexio.eu) lutte activement contre l'exclusion numÃ©rique en France. Elle accompagne les personnes les plus Ã©loignÃ©es du digital (rÃ©fugiÃ©s, jeunes sans diplÃ´me, seniors) Ã  travers des formations certifiantes. L'objectif : donner Ã  chacun les compÃ©tences nÃ©cessaires pour s'insÃ©rer professionnellement et gagner en autonomie dans une sociÃ©tÃ© tout-numÃ©rique.",
-    "appel_a_l_action": "Vous pouvez soutenir cette mission et aider Ã  rÃ©duire la fracture numÃ©rique en faisant un don.",
-    "lien_don": "https://www.helloasso.com/associations/konexio/formulaires/1"
-  }
+  "_fileName": "quiz_1.json"
 }

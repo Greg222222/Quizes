@@ -76,6 +76,8 @@ function App() {
   const [isAdmin, setIsAdmin] = useState(() => {
     return localStorage.getItem('quizz_admin') === 'true';
   });
+  const [isSaving, setIsSaving] = useState(false);
+  const [lastSavedJson, setLastSavedJson] = useState<string>("");
 
   const [flow, setFlow] = useState<QuizFlow>(() => {
     if (isStandalonePlayer) return SAMPLE_FLOW; // Temporary until fetched
@@ -127,6 +129,44 @@ function App() {
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(flow));
     }
   }, [flow, isStandalonePlayer]);
+
+  const saveFlowToBackend = async (flowToSave: QuizFlow) => {
+    if (!isAdmin || isStandalonePlayer) return;
+    
+    const currentJson = JSON.stringify(flowToSave);
+    if (currentJson === lastSavedJson) return;
+
+    setIsSaving(true);
+    try {
+      const rawApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+      const apiUrl = rawApiUrl.endsWith('/api') ? rawApiUrl.slice(0, -4) : rawApiUrl;
+      const response = await fetch(`${apiUrl}/api/flows/${flowToSave.id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: currentJson
+      });
+      if (response.ok) {
+        setLastSavedJson(currentJson);
+        setAllFlows(prev => prev.map(f => f.id === flowToSave.id ? flowToSave : f));
+      }
+    } catch (e) {
+      console.error('Error autosaving flow:', e);
+    } finally {
+      // Small delay for the indicator to be visible
+      setTimeout(() => setIsSaving(false), 800);
+    }
+  };
+
+  // Autosave effect
+  useEffect(() => {
+    if (mode !== 'editor' || !isAdmin || isStandalonePlayer) return;
+
+    const timer = setTimeout(() => {
+      saveFlowToBackend(flow);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, [flow, mode, isAdmin, isStandalonePlayer]);
 
   const handleComplete = (data: any) => {
     console.log('Quiz completed:', data)
@@ -276,6 +316,21 @@ function App() {
             <button onClick={() => setMode('editor')} style={{ background: mode === 'editor' ? '#6366f1' : 'white', color: mode === 'editor' ? 'white' : '#1e293b' }}>Editor Mode</button>
           ) : (
             <button onClick={handleLogin} style={{ background: 'white', color: '#1e293b' }}>Log in as Admin</button>
+          )}
+          
+          {isAdmin && mode === 'editor' && (
+            <div style={{ marginLeft: '15px', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', color: isSaving ? '#6366f1' : '#10b981', fontWeight: 'bold', minWidth: '110px' }}>
+              {isSaving ? (
+                <>
+                  <span className="saving-spinner" style={{ width: '12px', height: '12px', border: '2px solid #e2e8f0', borderTop: '2px solid #6366f1', borderRadius: '50%', display: 'inline-block', animation: 'spin 1s linear infinite' }}></span>
+                  Sauvegarde...
+                </>
+              ) : (
+                <>
+                  <span>✓</span> Enregistré
+                </>
+              )}
+            </div>
           )}
         </div>
 
