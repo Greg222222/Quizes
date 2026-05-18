@@ -73,6 +73,10 @@ function App() {
   const [, setResults] = useState<any>(null)
   const [allFlows, setAllFlows] = useState<QuizFlow[]>([])
   const [showShareModal, setShowShareModal] = useState(false);
+  const [showResponsesModal, setShowResponsesModal] = useState(false);
+  const [responsesList, setResponsesList] = useState<any[]>([]);
+  const [responseSearch, setResponseSearch] = useState('');
+  const [currentResponseId, setCurrentResponseId] = useState(() => Date.now().toString());
   const [isAdmin, setIsAdmin] = useState(() => {
     return localStorage.getItem('quizz_admin') === 'true';
   });
@@ -119,9 +123,28 @@ function App() {
     }
   }
 
+  const fetchResponses = async () => {
+    try {
+      const rawApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+      const apiUrl = rawApiUrl.endsWith('/api') ? rawApiUrl.slice(0, -4) : rawApiUrl;
+      const response = await fetch(`${apiUrl}/api/responses`);
+      if (response.ok) {
+        const data = await response.json();
+        if (Array.isArray(data)) {
+          setResponsesList(data);
+        }
+      }
+    } catch (e) {
+      console.error('Error fetching responses from backend:', e);
+    }
+  };
+
   useEffect(() => {
     fetchFlows();
-  }, []);
+    if (isAdmin) {
+      fetchResponses();
+    }
+  }, [isAdmin]);
 
   // Keep localStorage in sync
   useEffect(() => {
@@ -168,17 +191,62 @@ function App() {
     return () => clearTimeout(timer);
   }, [flow, mode, isAdmin, isStandalonePlayer]);
 
-  const handleComplete = (data: any) => {
-    console.log('Quiz completed:', data)
+  const handleComplete = async (variables: any) => {
+    console.log('Quiz completed:', variables)
     setCompleted(true)
-    setResults(data)
+    setResults(variables)
+
+    try {
+      const rawApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+      const apiUrl = rawApiUrl.endsWith('/api') ? rawApiUrl.slice(0, -4) : rawApiUrl;
+      const responsePayload = {
+        id: currentResponseId,
+        quizId: flow.id,
+        variables: variables,
+        score: variables.score || 0,
+        completed: true,
+        completedAt: new Date().toISOString()
+      };
+      await fetch(`${apiUrl}/api/responses`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(responsePayload)
+      });
+      fetchResponses();
+    } catch (e) {
+      console.error('Error saving quiz response:', e);
+    }
   }
+
+  const handleResponse = async (_variableName: string, _value: any, updatedVariables: any) => {
+    try {
+      const rawApiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+      const apiUrl = rawApiUrl.endsWith('/api') ? rawApiUrl.slice(0, -4) : rawApiUrl;
+      const responsePayload = {
+        id: currentResponseId,
+        quizId: flow.id,
+        variables: updatedVariables,
+        score: updatedVariables.score || 0,
+        completed: false,
+        completedAt: null
+      };
+      await fetch(`${apiUrl}/api/responses`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(responsePayload)
+      });
+      fetchResponses();
+    } catch (e) {
+      console.error('Error saving incremental response:', e);
+    }
+  };
 
   const handleSelectFlow = (flowId: string) => {
     const selected = allFlows.find(f => f.id === flowId);
     if (selected) {
       setFlow(selected);
       setCompleted(false);
+      setCurrentResponseId(Date.now().toString());
     }
   }
 
@@ -342,12 +410,20 @@ function App() {
             🔗 Partager
           </button>
           {isAdmin && (
-            <button 
-              onClick={handleCreateQuiz}
-              style={{ background: '#10b981', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '20px', fontSize: '0.85rem', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
-            >
-              + Créer un Quiz
-            </button>
+            <>
+              <button 
+                onClick={() => { fetchResponses(); setShowResponsesModal(true); }}
+                style={{ background: '#8b5cf6', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '20px', fontSize: '0.85rem', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
+              >
+                📊 Réponses
+              </button>
+              <button 
+                onClick={handleCreateQuiz}
+                style={{ background: '#10b981', color: 'white', border: 'none', padding: '8px 16px', borderRadius: '20px', fontSize: '0.85rem', fontWeight: 'bold', cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }}
+              >
+                + Créer un Quiz
+              </button>
+            </>
           )}
 
           {allFlows.length > 0 && (
@@ -396,7 +472,7 @@ function App() {
         <FlowEditor initialFlow={flow} onFlowChange={setFlow} />
       ) : (
         <div className="player-wrapper">
-          <ChatPlayer key={flow.id} flow={flow} onComplete={handleComplete} />
+          <ChatPlayer key={flow.id} flow={flow} onComplete={handleComplete} onResponse={handleResponse} />
         </div>
       )}
 
@@ -439,8 +515,203 @@ function App() {
           </div>
         </div>
       )}
+
+      {showResponsesModal && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          background: 'rgba(0,0,0,0.5)', zIndex: 1000,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          backdropFilter: 'blur(4px)'
+        }}>
+          <div style={{
+            background: 'white', padding: '30px', borderRadius: '16px',
+            width: '95%', maxWidth: '900px', maxHeight: '85vh',
+            boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)',
+            display: 'flex', flexDirection: 'column'
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+              <div>
+                <h2 style={{ margin: 0, fontSize: '1.5rem', color: '#1e293b' }}>Tableau des Réponses</h2>
+                <p style={{ fontSize: '0.8rem', color: '#64748b', margin: '4px 0 0 0' }}>Consultez et gérez les emails et données saisis par vos utilisateurs.</p>
+              </div>
+              <button onClick={() => setShowResponsesModal(false)} style={{ background: 'none', border: 'none', fontSize: '1.5rem', cursor: 'pointer', color: '#94a3b8' }}>&times;</button>
+            </div>
+
+            <div style={{ display: 'flex', gap: '10px', marginBottom: '20px', flexWrap: 'wrap' }}>
+              <input 
+                type="text" 
+                placeholder="Rechercher par quiz, email ou texte..." 
+                value={responseSearch}
+                onChange={e => setResponseSearch(e.target.value)}
+                style={{ flex: 1, minWidth: '200px', padding: '10px 14px', borderRadius: '20px', border: '1px solid #cbd5e1', outline: 'none', fontSize: '0.85rem' }}
+              />
+              <button 
+                onClick={() => {
+                  const emails = responsesList
+                    .map(r => {
+                      if (!r.variables) return '-';
+                      const emailKeys = ['email', 'user_email', 'mail', 'user_mail', 'adresse_email'];
+                      for (const key of emailKeys) {
+                        if (r.variables[key]) return r.variables[key];
+                      }
+                      for (const val of Object.values(r.variables)) {
+                        if (typeof val === 'string' && val.includes('@')) return val;
+                      }
+                      return '-';
+                    })
+                    .filter(email => email !== '-');
+                  if (emails.length === 0) {
+                    alert("Aucun email à copier.");
+                    return;
+                  }
+                  navigator.clipboard.writeText(emails.join(', '));
+                  alert(`${emails.length} email(s) copié(s) !`);
+                }}
+                style={{ background: '#475569', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '20px', fontSize: '0.85rem', fontWeight: 'bold', cursor: 'pointer' }}
+              >
+                📋 Copier les Emails
+              </button>
+              <button 
+                onClick={() => {
+                  const headers = ['Date', 'Quiz ID', 'Nom du Quiz', 'Email', 'Score', 'Autres Variables'];
+                  const rows = responsesList.map(resp => {
+                    const quizName = allFlows.find(f => f.id === resp.quizId)?.name || resp.quizId;
+                    const dateStr = new Date(resp.completedAt || resp.startedAt || Date.now()).toLocaleString();
+                    
+                    let email = '-';
+                    if (resp.variables) {
+                      const emailKeys = ['email', 'user_email', 'mail', 'user_mail', 'adresse_email'];
+                      for (const key of emailKeys) {
+                        if (resp.variables[key]) { email = resp.variables[key]; break; }
+                      }
+                      if (email === '-') {
+                        for (const val of Object.values(resp.variables)) {
+                          if (typeof val === 'string' && val.includes('@')) { email = val; break; }
+                        }
+                      }
+                    }
+
+                    const scoreStr = `${resp.score || 0}/${resp.variables?.maxScore || '-'}`;
+                    
+                    let otherVars = '';
+                    if (resp.variables) {
+                      otherVars = Object.entries(resp.variables)
+                        .filter(([key]) => !['score', 'maxScore', 'email', 'user_email', 'mail', 'user_mail', 'adresse_email'].includes(key))
+                        .map(([key, val]) => `${key}: ${val}`)
+                        .join(', ');
+                    }
+
+                    return [dateStr, resp.quizId, quizName, email, scoreStr, otherVars];
+                  });
+
+                  const csvRows = [headers.join(';'), ...rows.map(e => e.map(val => `"${String(val).replace(/"/g, '""')}"`).join(';'))];
+                  const csvString = '\uFEFF' + csvRows.join('\r\n');
+                  const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+                  const url = URL.createObjectURL(blob);
+                  const link = document.createElement("a");
+                  link.setAttribute("href", url);
+                  link.setAttribute("download", `reponses_quiz_${Date.now()}.csv`);
+                  document.body.appendChild(link);
+                  link.click();
+                  document.body.removeChild(link);
+                }}
+                style={{ background: '#8b5cf6', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '20px', fontSize: '0.85rem', fontWeight: 'bold', cursor: 'pointer' }}
+              >
+                📥 Exporter en CSV
+              </button>
+            </div>
+
+            <div style={{ flex: 1, overflowY: 'auto', border: '1px solid #e2e8f0', borderRadius: '8px', marginBottom: '20px' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.85rem', textAlign: 'left' }}>
+                <thead>
+                  <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0', color: '#475569' }}>
+                    <th style={{ padding: '12px 16px', fontWeight: 'bold' }}>Date</th>
+                    <th style={{ padding: '12px 16px', fontWeight: 'bold' }}>Quiz</th>
+                    <th style={{ padding: '12px 16px', fontWeight: 'bold' }}>Email</th>
+                    <th style={{ padding: '12px 16px', fontWeight: 'bold' }}>Score</th>
+                    <th style={{ padding: '12px 16px', fontWeight: 'bold' }}>Autres Variables</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {responsesList
+                    .filter(resp => {
+                      const quizName = allFlows.find(f => f.id === resp.quizId)?.name || resp.quizId;
+                      const dateStr = new Date(resp.completedAt || resp.startedAt || Date.now()).toLocaleString();
+                      
+                      let email = '-';
+                      if (resp.variables) {
+                        const emailKeys = ['email', 'user_email', 'mail', 'user_mail', 'adresse_email'];
+                        for (const key of emailKeys) {
+                          if (resp.variables[key]) { email = resp.variables[key]; break; }
+                        }
+                        if (email === '-') {
+                          for (const val of Object.values(resp.variables)) {
+                            if (typeof val === 'string' && val.includes('@')) { email = val; break; }
+                          }
+                        }
+                      }
+                      
+                      const searchStr = `${quizName} ${dateStr} ${email} ${JSON.stringify(resp.variables || {})}`.toLowerCase();
+                      return searchStr.includes(responseSearch.toLowerCase());
+                    })
+                    .map((resp, i) => {
+                      const quizName = allFlows.find(f => f.id === resp.quizId)?.name || resp.quizId;
+                      const dateStr = new Date(resp.completedAt || resp.startedAt || Date.now()).toLocaleString();
+                      
+                      let email = '-';
+                      if (resp.variables) {
+                        const emailKeys = ['email', 'user_email', 'mail', 'user_mail', 'adresse_email'];
+                        for (const key of emailKeys) {
+                          if (resp.variables[key]) { email = resp.variables[key]; break; }
+                        }
+                        if (email === '-') {
+                          for (const val of Object.values(resp.variables)) {
+                            if (typeof val === 'string' && val.includes('@')) { email = val; break; }
+                          }
+                        }
+                      }
+
+                      const scoreStr = `${resp.score || 0}/${resp.variables?.maxScore || '-'}`;
+                      
+                      let otherVars = '-';
+                      if (resp.variables) {
+                        const filtered = Object.entries(resp.variables)
+                          .filter(([key]) => !['score', 'maxScore', 'email', 'user_email', 'mail', 'user_mail', 'adresse_email'].includes(key));
+                        if (filtered.length > 0) {
+                          otherVars = filtered.map(([key, val]) => `${key}: ${val}`).join(', ');
+                        }
+                      }
+
+                      return (
+                        <tr key={i} style={{ borderBottom: '1px solid #f1f5f9', color: '#1e293b' }} onMouseOver={e => e.currentTarget.style.background = '#f8fafc'} onMouseOut={e => e.currentTarget.style.background = 'none'}>
+                          <td style={{ padding: '12px 16px' }}>{dateStr}</td>
+                          <td style={{ padding: '12px 16px', fontWeight: '500' }}>{quizName}</td>
+                          <td style={{ padding: '12px 16px', color: '#6366f1', fontWeight: 'bold' }}>{email}</td>
+                          <td style={{ padding: '12px 16px' }}>{scoreStr}</td>
+                          <td style={{ padding: '12px 16px', color: '#64748b' }}>{otherVars}</td>
+                        </tr>
+                      );
+                    })}
+                  {responsesList.length === 0 && (
+                    <tr>
+                      <td colSpan={5} style={{ padding: '30px', textAlign: 'center', color: '#94a3b8' }}>
+                        Aucune réponse enregistrée pour le moment.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+
+            <div style={{ textAlign: 'right' }}>
+              <button onClick={() => setShowResponsesModal(false)} style={{ padding: '10px 24px', background: '#6366f1', color: 'white', border: 'none', borderRadius: '20px', cursor: 'pointer', fontWeight: 'bold' }}>Fermer</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
 
 export default App
+

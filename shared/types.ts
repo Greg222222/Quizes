@@ -3,6 +3,7 @@ export type NodeType =
   | 'choice' 
   | 'input' 
   | 'date' 
+  | 'email' 
   | 'file' 
   | 'rating' 
   | 'branching' 

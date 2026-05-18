@@ -6,6 +6,7 @@ import { Send } from 'lucide-react';
 interface ChatPlayerProps {
   flow: QuizFlow;
   onComplete: (responses: any) => void;
+  onResponse?: (variableName: string, value: any, currentVariables: Record<string, any>) => void;
 }
 
 interface DisplayMessage {
@@ -18,12 +19,13 @@ interface DisplayMessage {
   botAvatar?: string;
 }
 
-export const ChatPlayer: React.FC<ChatPlayerProps> = ({ flow, onComplete }) => {
+export const ChatPlayer: React.FC<ChatPlayerProps> = ({ flow, onComplete, onResponse }) => {
   const [messages, setMessages] = useState<DisplayMessage[]>([]);
   const [currentNodeId, setCurrentNodeId] = useState<string | null>(flow.startNodeId);
   const [isTyping, setIsTyping] = useState(false);
   const [variables, setVariables] = useState<Record<string, any>>({ score: 0, maxScore: 0 });
   const [inputValue, setInputValue] = useState('');
+  const [emailError, setEmailError] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -46,6 +48,7 @@ export const ChatPlayer: React.FC<ChatPlayerProps> = ({ flow, onComplete }) => {
   }, [flow]);
 
   useEffect(() => {
+    setEmailError(null);
     let isActive = true;
     if (currentNodeId) {
       processNode(currentNodeId, () => isActive);
@@ -91,6 +94,19 @@ export const ChatPlayer: React.FC<ChatPlayerProps> = ({ flow, onComplete }) => {
     // For other types (input, choice, etc.), we wait for handleUserResponse
   };
 
+  const validateEmail = (email: string) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const handleEmailSubmit = () => {
+    if (!validateEmail(inputValue)) {
+      setEmailError('Veuillez entrer une adresse email valide.');
+      return;
+    }
+    setEmailError(null);
+    handleUserResponse(inputValue, inputValue);
+  };
+
   const handleUserResponse = (text: string, value: any, nextId?: string) => {
     const node = flow.nodes.find(n => n.id === currentNodeId);
     
@@ -113,8 +129,17 @@ export const ChatPlayer: React.FC<ChatPlayerProps> = ({ flow, onComplete }) => {
       }
 
       const updated: Record<string, any> = { ...prev, score: newScore };
-      if (node?.data?.variableName) {
-        updated[node.data.variableName] = value;
+      let varName = node?.data?.variableName;
+      if (!varName && node?.type === 'email') {
+        varName = 'email';
+      }
+      if (varName) {
+        updated[varName] = value;
+      }
+      if (varName && onResponse) {
+        setTimeout(() => {
+          onResponse(varName!, value, updated);
+        }, 0);
       }
       return updated;
     });
@@ -253,6 +278,30 @@ export const ChatPlayer: React.FC<ChatPlayerProps> = ({ flow, onComplete }) => {
             >
               <Send size={18} />
             </button>
+          </div>
+        )}
+
+        {currentNode?.type === 'email' && !isTyping && (
+          <div className="email-input-container" style={{ width: '100%' }}>
+            {emailError && <div className="email-error-message">{emailError}</div>}
+            <div className={`input-field ${emailError ? 'input-field-error' : ''}`}>
+              <input 
+                type="email" 
+                placeholder={currentNode.data?.placeholder || "exemple@email.com"}
+                value={inputValue}
+                onChange={(e) => {
+                  setInputValue(e.target.value);
+                  if (emailError) setEmailError(null);
+                }}
+                onKeyPress={(e) => e.key === 'Enter' && handleEmailSubmit()}
+              />
+              <button 
+                className="send-button"
+                onClick={handleEmailSubmit}
+              >
+                <Send size={18} />
+              </button>
+            </div>
           </div>
         )}
 

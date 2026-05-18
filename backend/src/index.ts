@@ -27,6 +27,22 @@ app.get('/.well-known/appspecific/com.chrome.devtools.json', (req, res) => {
 // Flows in memory
 let flows: any[] = [];
 let responses: any[] = [];
+const responsesFilePath = path.resolve(__dirname, '../json/responses.json');
+
+function loadResponsesFromDisk() {
+  if (fs.existsSync(responsesFilePath)) {
+    try {
+      const content = fs.readFileSync(responsesFilePath, 'utf8').trim();
+      if (content) {
+        responses = JSON.parse(content);
+      }
+    } catch (e) {
+      console.error('Error loading responses from disk:', e);
+    }
+  }
+}
+
+loadResponsesFromDisk();
 
 function cleanGarbledFrenchText(text: string): string {
   return text
@@ -282,9 +298,46 @@ app.post('/api/flows', (req, res) => {
   res.status(201).json(newFlow);
 });
 
+app.get('/api/responses', (req, res) => {
+  res.json(responses);
+});
+
 app.post('/api/responses', (req, res) => {
-  const response = { ...req.body, id: Date.now().toString(), startedAt: new Date().toISOString() };
-  responses.push(response);
+  const incomingId = req.body.id;
+  const existingIndex = incomingId ? responses.findIndex(r => r.id === incomingId) : -1;
+
+  let response;
+  if (existingIndex !== -1) {
+    response = {
+      ...responses[existingIndex],
+      ...req.body,
+      id: responses[existingIndex].id,
+      startedAt: responses[existingIndex].startedAt,
+      variables: {
+        ...responses[existingIndex].variables,
+        ...req.body.variables
+      }
+    };
+    responses[existingIndex] = response;
+  } else {
+    response = { 
+      ...req.body, 
+      id: incomingId || Date.now().toString(), 
+      startedAt: req.body.startedAt || new Date().toISOString() 
+    };
+    responses.push(response);
+  }
+
+  try {
+    const jsonDir = path.resolve(__dirname, '../json');
+    if (!fs.existsSync(jsonDir)) {
+      fs.mkdirSync(jsonDir, { recursive: true });
+    }
+    fs.writeFileSync(responsesFilePath, JSON.stringify(responses, null, 2), 'utf8');
+  } catch (err) {
+    console.error('Error saving responses to disk:', err);
+  }
+
   res.status(201).json(response);
 });
 

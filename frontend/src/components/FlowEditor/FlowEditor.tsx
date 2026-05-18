@@ -450,13 +450,21 @@ export const FlowEditor: React.FC<FlowEditorProps> = ({ initialFlow, onFlowChang
             <label style={{ display: 'block', fontSize: '0.8rem', color: '#64748b', marginBottom: '0.4rem' }}>Type de Question</label>
             <select 
               value={selectedNode.data.type || 'message'} 
-              onChange={(e) => updateNodeData({ type: e.target.value })}
+              onChange={(e) => {
+                const newType = e.target.value;
+                const extraData: any = { type: newType };
+                if (newType === 'email' && !selectedNode.data.variableName) {
+                  extraData.variableName = 'email';
+                }
+                updateNodeData(extraData);
+              }}
               style={{ width: '100%', padding: '0.5rem', border: '1px solid #e2e8f0', borderRadius: '4px', color: '#1e293b', background: 'white' }}
             >
               <option value="message">Message Simple</option>
               <option value="input">Champ Texte</option>
               <option value="choice">Choix Multiples</option>
               <option value="date">Sélecteur de Date</option>
+              <option value="email">Champ Email</option>
               <option value="rating">Évaluation (Étoiles)</option>
               <option value="terminal">Fin de Quiz</option>
             </select>
@@ -577,7 +585,7 @@ export const FlowEditor: React.FC<FlowEditorProps> = ({ initialFlow, onFlowChang
             )}
           </div>
 
-          {['input', 'choice', 'date', 'rating'].includes(selectedNode.data.type) && (
+          {['input', 'choice', 'date', 'rating', 'email'].includes(selectedNode.data.type) && (
             <div className="property-group">
               <label style={{ display: 'block', fontSize: '0.8rem', color: '#64748b', marginBottom: '0.4rem' }}>Nom de la Variable (pour stocker la réponse)</label>
               <input 

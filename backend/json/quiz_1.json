@@ -100,8 +100,8 @@
       "type": "message",
       "content": "Ce n'est pas la bonne réponse. En 2025, 34 % de la population de 16 à 74 ans manque de compétences numériques de base. [cite: 12] Ce taux a diminué de 4 points depuis 2021. [cite: 13, 37]",
       "position": {
-        "x": 550,
-        "y": 230
+        "x": 666,
+        "y": 296
       },
       "data": {
         "type": "message",
@@ -109,7 +109,7 @@
         "content": "Ce n'est pas la bonne réponse. En 2025, 34 % de la population de 16 à 74 ans manque de compétences numériques de base. [cite: 12] Ce taux a diminué de 4 points depuis 2021. [cite: 13, 37]",
         "isStartNode": false
       },
-      "nextId": "node_2_question"
+      "nextId": "node_1779101549401"
     },
     {
       "id": "node_2_question",
@@ -504,8 +504,8 @@
       "type": "message",
       "content": "Test Autosave System",
       "position": {
-        "x": 550,
-        "y": 1750
+        "x": 934,
+        "y": 1854
       },
       "data": {
         "type": "message",
@@ -1237,6 +1237,22 @@
         "content": "Agir pour l'inclusion numérique avec Konexio\n\nL'illectronisme n'est pas une fatalité. L'association Konexio (www.konexio.eu) lutte activement contre l'exclusion numérique en France. Elle accompagne les personnes les plus éloignées du digital (réfugiés, jeunes sans diplôme, seniors) à travers des formations certifiantes. L'objectif : donner à chacun les compétences nécessaires pour s'insérer professionnellement et gagner en autonomie dans une société tout-numérique.\n\nVous pouvez soutenir cette mission et aider à réduire la fracture numérique en faisant un don.\n\nFaire un don : https://www.helloasso.com/associations/konexio/formulaires/1",
         "isStartNode": false
       }
+    },
+    {
+      "id": "node_1779101549401",
+      "type": "email",
+      "content": "Saisissez votre email",
+      "position": {
+        "x": 1055.5479525601993,
+        "y": 368.03732424703753
+      },
+      "data": {
+        "type": "email",
+        "label": "Saisissez votre email",
+        "content": "Saisissez votre email",
+        "isStartNode": false
+      },
+      "nextId": "node_2_question"
     }
   ],
   "_fileName": "quiz_1.json"
