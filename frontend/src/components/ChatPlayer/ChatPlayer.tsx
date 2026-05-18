@@ -40,7 +40,7 @@ export const ChatPlayer: React.FC<ChatPlayerProps> = ({ flow, onComplete, onResp
     let calculatedMaxScore = 0;
     flow.nodes.forEach(node => {
       if (node.type === 'choice' && node.data?.options) {
-        const maxOptScore = Math.max(0, ...node.data.options.map((o: any) => o.isCorrect ? (o.scoreValue || 1) : 0));
+        const maxOptScore = Math.max(0, ...node.data.options.map((o: any) => o.isCorrect ? (o.scoreValue !== undefined && o.scoreValue !== null ? o.scoreValue : 1) : 0));
         calculatedMaxScore += maxOptScore;
       }
     });
@@ -124,7 +124,7 @@ export const ChatPlayer: React.FC<ChatPlayerProps> = ({ flow, onComplete, onResp
       if (node?.type === 'choice') {
         const selectedOpt = node.data?.options?.find((o: any) => o.value === value);
         if (selectedOpt?.isCorrect) {
-          newScore += (selectedOpt.scoreValue || 1);
+          newScore += (selectedOpt.scoreValue !== undefined && selectedOpt.scoreValue !== null ? selectedOpt.scoreValue : 1);
         }
       }
 

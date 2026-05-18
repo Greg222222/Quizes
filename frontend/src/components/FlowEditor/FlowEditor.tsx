@@ -633,7 +633,7 @@ export const FlowEditor: React.FC<FlowEditorProps> = ({ initialFlow, onFlowChang
                           checked={opt.isCorrect || false}
                           onChange={(e) => {
                             const newOpts = [...(selectedNode.data.options || [])];
-                            newOpts[idx] = { ...newOpts[idx], isCorrect: e.target.checked, scoreValue: e.target.checked ? (opt.scoreValue || 1) : undefined };
+                            newOpts[idx] = { ...newOpts[idx], isCorrect: e.target.checked, scoreValue: e.target.checked ? (opt.scoreValue !== undefined && opt.scoreValue !== null ? opt.scoreValue : 1) : undefined };
                             updateNodeData({ options: newOpts });
                           }}
                           style={{ accentColor: '#10b981' }}
@@ -645,7 +645,7 @@ export const FlowEditor: React.FC<FlowEditorProps> = ({ initialFlow, onFlowChang
                           Points :
                           <input 
                             type="number" 
-                            value={opt.scoreValue || 1}
+                            value={opt.scoreValue !== undefined && opt.scoreValue !== null ? opt.scoreValue : 1}
                             onChange={(e) => {
                               const newOpts = [...(selectedNode.data.options || [])];
                               newOpts[idx] = { ...newOpts[idx], scoreValue: Number(e.target.value) };
